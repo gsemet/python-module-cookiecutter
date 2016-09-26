@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = {{cookiecutter.library_name}}
+
+[report]
+ignore_errors = True
