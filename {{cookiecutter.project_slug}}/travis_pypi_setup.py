@@ -3,18 +3,19 @@
 """Update encrypted deploy password in Travis config file
 """
 
-
 from __future__ import print_function
 
 import base64
 import json
 import os
+
+from getpass import getpass
+
 import yaml
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
-from getpass import getpass
 
 
 try:
@@ -23,7 +24,7 @@ except:
     from urllib.request import urlopen
 
 
-GITHUB_REPO = '{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}'
+GITHUB_REPO = 'Stibbons/txrwlock'
 TRAVIS_CONFIG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '.travis.yml')
 
@@ -57,11 +58,17 @@ def fetch_public_key(repo):
     Travis API docs: http://docs.travis-ci.com/api/#repository-keys
     """
     keyurl = 'https://api.travis-ci.org/repos/{0}/key'.format(repo)
-    data = json.loads(urlopen(keyurl).read())
-    if 'key' not in data:
-        errmsg = "Could not find public key for repo: {}.\n".format(repo)
-        errmsg += "Have you already added your GitHub repo to Travis?"
-        raise ValueError(errmsg)
+    print("Fetching: {}".format(keyurl))
+    raw_data = urlopen(keyurl).read()
+    try:
+        data = json.loads(raw_data)
+        if 'key' not in data:
+            errmsg = "Could not find public key for repo: {}.\n".format(repo)
+            errmsg += "Have you already added your GitHub repo to Travis?"
+            raise ValueError(errmsg)
+    except ValueError:
+        raise ValueError("Invalid response: {}".format(raw_data))
+
     return data['key']
 
 
@@ -103,19 +110,24 @@ def update_travis_deploy_password(encrypted_password):
 
 
 def main(args):
-    public_key = fetch_public_key(args.repo)
+    if not args.travis_key:
+        public_key = fetch_public_key(args.repo)
+    else:
+        public_key = args.travis_key
     password = args.password or getpass('PyPI password: ')
     update_travis_deploy_password(encrypt(public_key, password))
     print("Wrote encrypted password to .travis.yml -- you're ready to deploy")
 
 
-if '__main__' == __name__:
+if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', default=GITHUB_REPO,
                         help='GitHub repo (default: %s)' % GITHUB_REPO)
     parser.add_argument('--password',
                         help='PyPI password (will prompt if not provided)')
+    parser.add_argument('--travis-key',
+                        help='Travis public key')
 
     args = parser.parse_args()
     main(args)
