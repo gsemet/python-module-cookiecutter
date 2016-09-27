@@ -1,7 +1,13 @@
 {
-	"library_name": "replace with the name of the python library",
-	"author_name": "replace with name of the author",
-	"author_email": "replace by the email of the author",
-	"author_website": "replace by the URL of the project (Github project URL, ...)",
-	"project_short_description": "replace with a one-line description of your library"
+	"full_name": "Author Name",
+	"email": "author@server.com",
+	"library_name": "my_library_name",
+	"project_short_description": "Short Description of My Library",
+	"project_slug": "{{ cookiecutter.library_name.lower().replace(' ', '_') }}",
+	"github_username": "github_username",
+	"pypi_username": "{{ cookiecutter.github_username }}",
+	"github_repository_name": "{{ cookiecutter.project_slug }}",
+	"use_pypi_deployment_with_travis": "y",
+	"create_developer_env_after_scapfolding": "y",
+	"use_pytest": "y"
 }

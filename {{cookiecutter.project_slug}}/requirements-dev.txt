@@ -1,0 +1,10 @@
+flake8
+pycodestyle>=2.0.0
+pyflakes>=1.2.3
+pylint>=1.6.4
+yapf>=0.12
+{% if cookiecutter.use_pypi_deployment_with_travis == 'y' -%}
+cryptography==1.4
+PyYAML==3.11{% endif %}
+{% if cookiecutter.use_pytest == 'y' -%}
+pytest==2.9.2{%- endif %}
