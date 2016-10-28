@@ -3,16 +3,23 @@
 
 language: python
 
-env:
-  - TOXENV=py35
-  - TOXENV=py34
-  - TOXENV=py27
+
+python:
+  - 3.5
+  - 3.4
+  - 2.7
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox coveralls
+install:
+  - pip install -U pip
+  - pip install -U tox coveralls
+  - pip install -U -r requirements.txt
+  - pip install -U -r requirements-dev.txt
 
 # command to run tests, e.g. python setup.py test
-script: tox -e ${TOXENV}
+script:
+  - python setup.py flake8
+  # - tox -e ${TOXENV}
 
 after_success:
   coveralls
