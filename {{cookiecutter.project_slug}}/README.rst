@@ -6,7 +6,7 @@
 
 * Free software: MIT
 * Documentation: {{ cookiecutter.library_name }}.readthedocs.org/en/latest/
-* Source: {{ cookiecutter.author_website }}
+* Source: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}
 
 Features
 --------
