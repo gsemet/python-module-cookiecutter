@@ -29,12 +29,11 @@ after_success:
 # travis_pypi_setup.py script to finish PyPI deployment setup
 deploy:
   provider: pypi
-  distributions: sdist bdist_wheel
   user: {{ cookiecutter.pypi_username }}
+  distributions: sdist bdist_wheel
   password:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
     repo: {{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-    condition: $TOXENV == py27
 {%- endif %}
