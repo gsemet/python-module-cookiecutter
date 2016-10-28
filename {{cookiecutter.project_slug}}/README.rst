@@ -19,7 +19,7 @@
 {{ cookiecutter.project_short_description}}
 
 * Free software: MIT
-* Documentation: {{ cookiecutter.library_name }}.readthedocs.org/en/latest/
+* Documentation: https://{{ cookiecutter.library_name }}.readthedocs.org/en/latest/
 * Source: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}
 
 Features
@@ -29,6 +29,17 @@ Features
 
 Usage
 -----
+
+* TODO
+
+
+Note: only dependencies described in `requirements.txt` will be installed when
+using `pip install`. The development dependencies (pylint,...) and **not**
+installed on deployment.
+
+
+Contributing
+------------
 
 Create a virtualenv:
 
@@ -67,6 +78,9 @@ Build Wheel package:
 .. code-block:: bash
 
     python setup.py bdist_wheel
+
+
+(Only for package owner)
 
 Register on Pypi
 
