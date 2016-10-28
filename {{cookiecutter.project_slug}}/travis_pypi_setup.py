@@ -24,7 +24,7 @@ except:
     from urllib.request import urlopen
 
 
-GITHUB_REPO = 'Stibbons/txrwlock'
+GITHUB_REPO = '{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}'
 TRAVIS_CONFIG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '.travis.yml')
 
@@ -49,7 +49,7 @@ def encrypt(pubkey, password):
     private key (in this case, only Travis).
     """
     key = load_key(pubkey)
-    encrypted_password = key.encrypt(password, PKCS1v15())
+    encrypted_password = key.encrypt(password.encode('utf-8'), PKCS1v15())
     return base64.b64encode(encrypted_password)
 
 
@@ -61,7 +61,7 @@ def fetch_public_key(repo):
     print("Fetching: {}".format(keyurl))
     raw_data = urlopen(keyurl).read()
     try:
-        data = json.loads(raw_data)
+        data = json.loads(raw_data.decode('utf-8'))
         if 'key' not in data:
             errmsg = "Could not find public key for repo: {}.\n".format(repo)
             errmsg += "Have you already added your GitHub repo to Travis?"
