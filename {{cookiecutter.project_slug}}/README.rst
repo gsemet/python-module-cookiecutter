@@ -2,6 +2,20 @@
 {{ cookiecutter.library_name }}
 ===============================
 
+.. image:: https://travis-ci.org/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}.svg?branch=master
+    :target: https://travis-ci.org/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}
+.. image:: https://readthedocs.org/projects/{{ cookiecutter.library_name }}/badge/?version=latest
+   :target: http://{{ cookiecutter.library_name }}.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+.. image:: https://coveralls.io/repos/github/{{ cookiecutter.github_username }}/{{ cookiecutter.library_name }}/badge.svg
+   :target: https://coveralls.io/github/{{ cookiecutter.github_username }}/{{ cookiecutter.library_name }}
+.. image:: https://badge.fury.io/py/{{ cookiecutter.library_name }}.svg
+   :target: https://pypi.python.org/pypi/{{ cookiecutter.library_name }}/
+   :alt: Pypi package
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: ./LICENSE
+   :alt: MIT licensed
+
 {{ cookiecutter.project_short_description}}
 
 * Free software: MIT
@@ -53,3 +67,16 @@ Build Wheel package:
 .. code-block:: bash
 
     python setup.py bdist_wheel
+
+Register on Pypi
+
+.. code-block:: bash
+
+    python setup.py register
+
+Publish on Pypi
+
+.. code-block:: bash
+
+    python setup.py upload
+
