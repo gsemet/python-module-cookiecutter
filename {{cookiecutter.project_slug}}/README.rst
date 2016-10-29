@@ -43,54 +43,73 @@ Contributing
 
 Create a virtualenv:
 
-.. code-block:: bash
+    This will isolate your environment from the system environment.
 
-    $ virtualenv venv
-    $ source venv/bin/activate
-    $ pip install --upgrade pip  # Force upgrade to latest version of pip
+    .. code-block:: bash
+
+        $ virtualenv venv
+        $ source venv/bin/activate
+        $ pip install --upgrade pip  # Force upgrade to latest version of pip
 
 Setup for production:
 
-.. code-block:: bash
+    This will only install production dependencies. You cannot run the unit test or do any code
+    housework!
 
-    $ pip install -r requirements.txt .
+    .. code-block:: bash
 
-Setup for development and unit tests
+        $ pip install -r requirements.txt .
 
-.. code-block:: bash
+Setup for development and unit tests:
 
-    $ pip install -r requirements.txt -r requirements-dev.txt -e .
+    Full power environment.
+
+    .. code-block:: bash
+
+        $ pip install -r requirements.txt -r requirements-dev.txt -e .
 
 Build source package:
 
-.. code-block:: bash
+    Use it for most package without low level system dependencies.
 
-    python setup.py sdist
+    .. code-block:: bash
+
+        python setup.py sdist
 
 Build binary package:
 
-.. code-block:: bash
+    Needed for package with a C or other low level source code.
 
-    python setup.py bdist
+    .. code-block:: bash
+
+        python setup.py bdist
 
 Build Wheel package:
 
-.. code-block:: bash
+    Always provide a wheel package.
 
-    python setup.py bdist_wheel
+    .. code-block:: bash
 
+        python setup.py bdist_wheel
 
 (Only for package owner)
 
-Register on Pypi
+Register and publish your package to Pypi:
 
-.. code-block:: bash
+    Do it locally only once, to create your package on `pypi.python.org`.
 
-    python setup.py register
+    .. code-block:: bash
 
-Publish on Pypi
+        python setup.py sdist register upload
 
-.. code-block:: bash
+Create a release:
 
-    python setup.py upload
+    Go on GitHub and create a tag with a semver syntax. Optionally you can tag code locally and push
+    to GitHub.
+
+    .. code-block:: bash
+
+        git tag 1.2.3
+
+    On successful travis build on the Tag branch, your Pypi package will be updated automatically.
 
