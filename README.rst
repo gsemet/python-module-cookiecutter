@@ -1,6 +1,9 @@
 State of the Art Python Library Cookiecutter
 ============================================
 
+.. image:: https://travis-ci.org/Stibbons/python-library-cookiecutter.svg?branch=master
+    :target: https://travis-ci.org/Stibbons/python-library-cookiecutter
+
 Cookie cutter recipe for bootstrapping a State of the Art Python **library**. "Library" means your
 Python module is not an application, and it needs to be used by at least one other module to build a
 application.
