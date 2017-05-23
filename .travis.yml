@@ -8,7 +8,7 @@ python:
     - "3.6"
     - "nightly"
     - "pypy"
-    - "pypy3"
+    # - "pypy3" Not supported by pip/virtualenv yet
 
 install:
   - pip install pipenv>=4.0 virtualenv>=12.0.2
