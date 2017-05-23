@@ -6,6 +6,7 @@ Python module is not an application, and it needs to be used by at least one oth
 application.
 
 Pyhton Python "Library" and "Application" is how dependencies are versioned:
+
 - for a library, dependencies version should not be frozen. For example, let's imagine your library
   depends on a module A in version 1.0. Your library is used in an application that also depends on
   the same module A, but in version 1.2. The version installed will depends on which latest install
@@ -24,18 +25,18 @@ Features
 
 Feature of this Cookiecutter recipe:
 
-- Github host
+- **Github** host
 - Free software: MIT license
 - Python 2.7, 3.4, 3.5, Pypy
-- use Pipenv to manage Pipfile, Pipfile.lock (upcoming Python standard)
-- PBR: Set up to use Python Build Reasonableness, to handle automatic versioning based on Git Tag,
+- use **Pipenv** to manage Pipfile, Pipfile.lock (upcoming Python standard)
+- **PBR**: Set up to use Python Build Reasonableness, to handle automatic versioning based on Git Tag,
   automatic creation of `ChangeLog` and `AUTHORS` files
-- Pylint, Yapf, Pep8: code style
-- Coverage: unit test report
-- Pytest: Setup to easily test for Python 2.6, 2.7, 3.3, 3.4
-- Travis-CI: for build, unit test and deploy tagged version to Pypi
-- Sphinx docs: Documentation ready for generation and publication to ReadTheDoc
-- Pypi: automatic deployment of distribution package or wheels.
+- **Pylint, Yapf, Pep8**: code style
+- **Coverage**: unit test report
+- **Pytest**: Setup to easily test for Python 2.6, 2.7, 3.3, 3.4
+- **Travis-CI**: build, unit test and deploy tagged version to Pypi
+- **Sphinx docs**: Documentation ready for generation and publication to ReadTheDoc
+- **Pypi**: automatic deployment of distribution package or wheels on successful Travis build (tag).
 
 Usage
 -----
