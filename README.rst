@@ -32,8 +32,8 @@ Feature of this Cookiecutter recipe:
 - Free software: MIT license
 - Python 2.7, 3.4, 3.5, Pypy
 - use **Pipenv** to manage Pipfile, Pipfile.lock (upcoming Python standard)
-- **PBR**: Set up to use Python Build Reasonableness, to handle automatic versioning based on Git Tag,
-  automatic creation of `ChangeLog` and `AUTHORS` files
+- **PBR**: Set up to use **Python Build Reasonableness**, to handle automatic versioning based on
+  Git Tag, automatic creation of `ChangeLog` and `AUTHORS` files
 - **Pylint, Yapf, Pep8**: code style
 - **Coverage**: unit test report
 - **Pytest**: Setup to easily test for Python 2.6, 2.7, 3.3, 3.4
