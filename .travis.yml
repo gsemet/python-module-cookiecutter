@@ -1,14 +1,16 @@
 language: python
 
 python:
-  - "3.5"
-  - "3.4"
-  - "2.7"
-  - "pypy"
+    - "2.6"
+    - "2.7"
+    - "3.4"
+    - "3.5"
+    - "3.6"
+    - "3.7-dev"
+    - "pypy"
 
 install:
-  - pip install cookiecutter
+  - pip install pipenv
 
 script:
-  - cookiecutter . --no-input
-  - cd ./python_boilerplate && python setup.py test
+  - ./test.sh

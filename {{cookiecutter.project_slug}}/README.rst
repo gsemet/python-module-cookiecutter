@@ -33,40 +33,52 @@ Usage
 * TODO
 
 
-Note: only dependencies described in `requirements.txt` will be installed when
-using `pip install`. The development dependencies (pylint,...) and **not**
-installed on deployment.
-
+Note: See `pipenv documentation <https://github.com/kennethreitz/pipenv>`_ for Pipfile
+specification.
 
 Contributing
 ------------
 
-Create a virtualenv:
-
-    This will isolate your environment from the system environment.
+Create your environment with
 
     .. code-block:: bash
 
-        $ virtualenv venv
-        $ source venv/bin/activate
-        $ pip install --upgrade pip  # Force upgrade to latest version of pip
+        $ pipenv --three
+
+PS: you can use `pipenv --two` for Python 2.
 
 Setup for production:
 
-    This will only install production dependencies. You cannot run the unit test or do any code
+    This will install production dependencies. You cannot run the unit test or do any code
     housework!
 
     .. code-block:: bash
 
-        $ pip install -r requirements.txt .
+        $ pipenv install
 
 Setup for development and unit tests:
 
-    Full power environment.
+    .. code-block:: bash
+
+        $ pipenv install --dev
+
+Activate the environment:
 
     .. code-block:: bash
 
-        $ pip install -r requirements.txt -r requirements-dev.txt -e .
+        $ pipenv shell
+
+Execute a command directly inside the environment:
+
+    .. code-block:: bash
+
+        $ pipenv run ...
+
+Execute unit tests:
+
+    .. code-block:: bash
+
+        $ pipenv run pytest test
 
 Build source package:
 
@@ -74,7 +86,7 @@ Build source package:
 
     .. code-block:: bash
 
-        python setup.py sdist
+        pipenv run python setup.py sdist
 
 Build binary package:
 
@@ -82,7 +94,7 @@ Build binary package:
 
     .. code-block:: bash
 
-        python setup.py bdist
+        pipenv run python setup.py bdist
 
 Build Wheel package:
 
@@ -90,7 +102,7 @@ Build Wheel package:
 
     .. code-block:: bash
 
-        python setup.py bdist_wheel
+        pipenv run python setup.py bdist_wheel
 
 (Only for package owner)
 
@@ -100,7 +112,7 @@ Register and publish your package to Pypi:
 
     .. code-block:: bash
 
-        python setup.py sdist register upload
+        pipenv run python setup.py sdist register upload
 
 Create a release:
 
@@ -112,4 +124,3 @@ Create a release:
         git tag 1.2.3
 
     On successful travis build on the Tag branch, your Pypi package will be updated automatically.
-

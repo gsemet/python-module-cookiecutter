@@ -9,17 +9,13 @@ python:
   - 3.4
   - 2.7
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -U pip
-  - pip install -U tox coveralls
-  - pip install -U -r requirements.txt
-  - pip install -U -r requirements-dev.txt
+  - pip install -U pip pipenv
+  - pipipenv install --dev
 
-# command to run tests, e.g. python setup.py test
 script:
   - python setup.py flake8
-  # - tox -e ${TOXENV}
+  - pipenv run pytest test
 
 after_success:
   coveralls
