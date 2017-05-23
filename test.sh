@@ -30,7 +30,7 @@ rm -rfv testdir
 mkdir -p testdir
 cd testdir
 
-cookiecutter .. << EOF
+pipenv run cookiecutter .. << EOF
 3
 Author Name
 author.name@server.com
@@ -43,6 +43,6 @@ github_repository_name
 y
 y
 
-EOF || exit 1
+EOF
 
 echo "Test went successful (in $PWD)"
