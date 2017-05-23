@@ -2,8 +2,5 @@
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
-[requires]
-python_version = ">=2.6"
-
 [packages]
 cookiecutter = "*"
