@@ -87,6 +87,13 @@ Setup for development and unit tests:
 
         $ pip install -r requirements.txt -r requirements-dev.txt -e .
 
+Create a repository on Github, add a remote and push
+
+.. code-block:: bash
+
+    $ git remote add origin http://....
+    $ git push origin
+
 Build source package:
 
     Use it for most package without low level system dependencies.
