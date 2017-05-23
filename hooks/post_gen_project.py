@@ -7,6 +7,13 @@ import os
 import subprocess
 
 
+PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
+
+
+def remove_file(filepath):
+    os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+
+
 if __name__ == '__main__':
     if '{{ cookiecutter.use_pypi_deployment_with_travis }}' != 'y':
         remove_file('travis_pypi_setup.py')
@@ -23,7 +30,12 @@ if __name__ == '__main__':
         subprocess.check_call(["pipenv", "install", "--dev"])
 
         print("Initial build...")
-        subprocess.check_call(["pipenv", "run", "--no-interactive", "python", "setup.py", "sdist"])
+        venv = subprocess.check_output(["pipenv", "--venv"]).strip().decode('utf8')
+        # Cannot use directly `pipenv run`, it requires a TTY, and the
+        # --no-interactive options is not available on every version
+        subprocess.check_call([os.path.join(venv,
+                                            "bin",
+                                            "python"), "setup.py", "sdist"])
 
         print("Developer environment created. Activate with:")
         print("  pipenv shell")

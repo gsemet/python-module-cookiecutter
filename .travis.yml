@@ -11,7 +11,7 @@ python:
     - "pypy3"
 
 install:
-  - pip install pipenv
+  - pip install pipenv>=4.0 virtualenv>=12.0.2
 
 script:
   - ./test.sh
