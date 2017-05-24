@@ -36,7 +36,7 @@ Feature of this Cookiecutter recipe:
   Git Tag, automatic creation of `ChangeLog` and `AUTHORS` files
 - **Pylint, Yapf, Pep8**: code style
 - **Coverage**: unit test report
-- **Pytest**: Setup to easily test for Python 2.6, 2.7, 3.3, 3.4
+- **Pytest**: Setup to easily test for Python 2.7, 3.3, 3.4
 - **Travis-CI**: build, unit test and deploy tagged version to Pypi
 - **Sphinx docs**: Documentation ready for generation and publication to ReadTheDoc
 - **Pypi**: automatic deployment of distribution package or wheels on successful Travis build (tag).
