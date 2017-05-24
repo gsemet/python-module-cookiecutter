@@ -46,49 +46,35 @@ Usage
 
 Do not create a folder for your project, it will be automatically created.
 
-Generate a Python package project:
-
-    Use Cookiecutter and this repository to save hours setting up your python library project.
+Boostrap your Python library:
 
     .. code-block:: bash
 
         $ cookiecutter https://github.com/Stibbons/python-library-cookiecutter
 
-Create a virtualenv:
-
-    .. code-block:: bash
-
-        $ virtualenv venv
-        $ source venv/bin/activate
-        $ pip install --upgrade pip  # Force upgrade to latest version of pip
-
-
-Create a virtualenv:
-
-    This will isolate your environment from the system environment.
-
-    .. code-block:: bash
-
-        $ virtualenv venv
-        $ source venv/bin/activate
-        $ pip install --upgrade pip  # Force upgrade to latest version of pip
-
 Setup for production:
 
-    This will only install production dependencies. You cannot run the unit test or do any code
-    housework!
+    .. code-block:: bash
+
+        $ pipenv install
+
+Setup for development:
 
     .. code-block:: bash
 
-        $ pip install -r requirements.txt .
+        $ pipenv install --dev
 
-Setup for development and unit tests:
-
-    Full power environment.
+Activate the virtualenv:
 
     .. code-block:: bash
 
-        $ pip install -r requirements.txt -r requirements-dev.txt -e .
+        $ pipenv shell
+
+Execute unit tests:
+
+    .. code-block:: bash
+
+        $ pipenv run pytest test
 
 Create a repository on Github, add a remote and push
 
@@ -103,7 +89,7 @@ Build source package:
 
     .. code-block:: bash
 
-        python setup.py sdist
+        pipenv run python setup.py sdist
 
 Build binary package:
 
@@ -111,7 +97,7 @@ Build binary package:
 
     .. code-block:: bash
 
-        python setup.py bdist
+        pipenv run python setup.py bdist
 
 Build Wheel package:
 
@@ -119,7 +105,7 @@ Build Wheel package:
 
     .. code-block:: bash
 
-        python setup.py bdist_wheel
+        pipenv run python setup.py bdist_wheel
 
 (Only for package owner)
 
@@ -129,7 +115,7 @@ Register and publish your package to Pypi:
 
     .. code-block:: bash
 
-        python setup.py sdist register upload
+        pipenv run python setup.py sdist register upload
 
 Create a release:
 
