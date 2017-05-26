@@ -47,20 +47,23 @@ Create your environment with
 
 PS: you can use `pipenv --two` for Python 2.
 
-Setup for production:
-
-    This will install production dependencies. You cannot run the unit test or do any code
-    housework!
-
-    .. code-block:: bash
-
-        $ pipenv install
 
 Setup for development and unit tests:
 
     .. code-block:: bash
 
         $ pipenv install --dev
+
+Note
+
+    Setup for production can be done with:
+
+    .. code-block:: bash
+
+        $ pipenv install
+
+    But if your application uses this library through a `requirements.txt` (Pip) or through a
+    `Pipfile` (Pipenv), you should not have to do this "setup for production" command.
 
 Activate the environment:
 
