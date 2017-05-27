@@ -8,15 +8,15 @@ Cookie cutter recipe for bootstrapping a State of the Art Python **library**. "L
 Python module is not an application, and it needs to be used by at least one other module to build a
 application.
 
-Pyhton Python "Library" and "Application" is how dependencies are versioned:
+Python "Library" and "Application" should handle dependencies differently:
 
-- for a library, dependencies version should not be frozen. For example, let's imagine your library
-  depends on a module A in version 1.0. Your library is used in an application that also depends on
-  the same module A, but in version 1.2. The version installed will depends on which latest install
-  script has been installed.
-  Libraries should handle dependencies using version ranges, not frozen version.
+- for a **library**, dependencies version should not be frozen. For example, let's imagine your
+  library depends on a module A in version 1.0. Your library is used in an application that also
+  depends on the same module A, but in version 1.2. The version installed will depends on which
+  latest install script has been installed. Libraries should handle dependencies using version
+  ranges, not frozen version.
 
-- for application that goes to production, a great practice to set up is to ensure full
+- for **application** that goes to production, a great practice to set up is to ensure full
   reproductibility of your installation, no matter what happens on https://pypi.python.org. You
   absolutly want to freeze **all** dependencies. You do not want to have your deployment broken
   because a new version of a package that broke your application has just appeared on Pypi.
@@ -26,8 +26,16 @@ See https://github.com/audreyr/cookiecutter for more information about Cookiecut
 Features
 --------
 
+Feature of the "Python Library" Cookiecutter recipe:
+
+See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
+
+Features
+--------
+
 Feature of this Cookiecutter recipe:
 
+- Dependencies defined by range
 - **Github** host
 - Free software: MIT license
 - Python 2.7, 3.4, 3.5, Pypy
@@ -35,8 +43,9 @@ Feature of this Cookiecutter recipe:
 - **PBR**: Set up to use **Python Build Reasonableness**, to handle automatic versioning based on
   Git Tag, automatic creation of `ChangeLog` and `AUTHORS` files
 - **Pylint, Yapf, Pep8**: code style
+- **editconfig**: autoconfiguration of your editor
 - **Coverage**: unit test report
-- **Pytest**: Setup to easily test for Python 2.7, 3.3, 3.4
+- **Pytest**: Setup to easily test for Python 2 or 3
 - **Travis-CI**: build, unit test and deploy tagged version to Pypi
 - **Sphinx docs**: Documentation ready for generation and publication to ReadTheDoc
 - **Pypi**: automatic deployment of distribution package or wheels on successful Travis build (tag).
