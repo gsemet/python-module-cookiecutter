@@ -34,9 +34,9 @@ pipenv run cookiecutter .. << EOF
 3
 Author Name
 author.name@server.com
-library_name
+project_name
 Short Project Description
-library_name
+project_name
 github_username
 pipy_username
 github_repository_name

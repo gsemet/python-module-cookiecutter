@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = {{cookiecutter.library_name}}
+source = {{cookiecutter.project_name}}
 
 [report]
 ignore_errors = True
