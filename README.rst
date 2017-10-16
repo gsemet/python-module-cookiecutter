@@ -64,6 +64,8 @@ Boostrap your Python library:
     .. code-block:: bash
 
         $ cookiecutter https://github.com/Stibbons/python-library-cookiecutter
+        $ # or
+        $ cookiecutter gh:Stibbons/python-library-cookiecutter
 
 Setup for development:
 
