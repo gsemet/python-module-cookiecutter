@@ -1,54 +1,57 @@
-State of the Art Python Library Cookiecutter
-============================================
+State of the Art OpenSource Python Library Cookiecutter
+=======================================================
 
 .. image:: https://travis-ci.org/Stibbons/python-library-cookiecutter.svg?branch=master
     :target: https://travis-ci.org/Stibbons/python-library-cookiecutter
 
-Cookie cutter recipe for bootstrapping a State of the Art Python **library**. "Library" means your
-Python module is not an application, and it needs to be used by at least one other module to build a
-application.
+Cookie cutter recipe for bootstrapping an OpenSource Python **library** using state of the art,
+free services and the best "opensource" mindset.
 
-Python "Library" and "Application" should handle dependencies differently:
+Library vs Application
+----------------------
 
-- for a **library**, dependencies version should not be frozen. For example, let's imagine your
-  library depends on a module A in version 1.0. Your library is used in an application that also
-  depends on the same module A, but in version 1.2. The version installed will depends on which
-  latest install script has been installed. Libraries should handle dependencies using version
-  ranges, not frozen version.
+It is important to differentiate a Python "Library" and a Python "Application". Each form have its
+own life and should handle dependencies differently:
 
-- for **application** that goes to production, a great practice to set up is to ensure full
-  reproductibility of your installation, no matter what happens on https://pypi.python.org. You
-  absolutly want to freeze **all** dependencies. You do not want to have your deployment broken
-  because a new version of a package that broke your application has just appeared on Pypi.
+- To ensure stability and reproductibility of the deployment of an **application**, a good practice
+  is to **freeze the versions of all its dependencies**, so, no matter what happens for example on
+  https://pypi.python.org for example a new, buggy version of a package your application relies on
+  actually break your application. Without proper "frozen" dependencies management, you might get
+  this dependency library deployed on production without any validation.
+
+- for a **library**, dependencies versions should not be frozen and should be defined using version
+  ranges.
+  For example, let's imagine your library depends on a module A in version 1.0. Your library is
+  then used in an application that also depends on the same module A, but in version 1.2. The best
+  way to handle this is to let libraries describe the range of supported versions, and let the
+  package manager (Pip) find the best candidates.
+
+
+Python Library Receipe Features
+------------------------------
 
 See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
-
-Features
---------
 
 Feature of the "Python Library" Cookiecutter recipe:
 
-See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
-
-Features
---------
-
-Feature of this Cookiecutter recipe:
-
-- Dependencies defined by range
-- **Github** host
-- Free software: MIT license
-- Python 2.7, 3.4, 3.5, Pypy
-- use **Pipenv** to manage Pipfile, Pipfile.lock (upcoming Python standard)
-- **PBR**: Set up to use **Python Build Reasonableness**, to handle automatic versioning based on
-  Git Tag, automatic creation of `ChangeLog` and `AUTHORS` files
-- **Pylint, Yapf, Pep8**: code style
-- **editconfig**: autoconfiguration of your editor
+- Use **Pipenv** to manage `Pipfile`.
+- Dependencies are defined by range and `Pipfile.lock` is **not** tracked
+- Source code is horst on **Github**
+- Free software: **MIT license**
+- Python 2, 3 and Pypy, with default set to Python 3
+- **PBR**: handle automatic versioning based on Git Tag, automatic creation of `ChangeLog` and
+  `AUTHORS` files
+- **Pypi**: automatic deployment of distribution package or wheels on successful Travis Tag build
+- **Makefile** to ease daily-life of developers and maintainers
+- **Travis-CI**: build, unit test
+- **Automatically deploy successful tagged version** to Pypi
+- **Automatically set Travis CI deployment token** with `travis_pypi_setup.py` script
+- **isort, Yapf, AutoPep8**: code formatting
+- **Pylint, Flake8**: code style
+- **editconfig**: autoconfiguration of almost any editor
 - **Coverage**: unit test report
-- **Pytest**: Setup to easily test for Python 2 or 3
-- **Travis-CI**: build, unit test and deploy tagged version to Pypi
-- **Sphinx docs**: Documentation ready for generation and publication to ReadTheDoc
-- **Pypi**: automatic deployment of distribution package or wheels on successful Travis build (tag).
+- Use **Pytest** and **Tox** for Unit testing
+- **Sphinx docs**: Documentation ready for generation and publication to **ReadTheDoc**
 
 Usage
 -----
@@ -65,37 +68,28 @@ Setup for development:
 
     .. code-block:: bash
 
-        $ pipenv install --dev
+        $ make dev
 
 Note
 
-    Setup for production can be done with:
+    Deploying a "library" in production has little to no meaning. If it is intended to be deployed
+    directly on the system, use your distribution package manager (`apt`, 'brew', 'yum', ...)
 
-    .. code-block:: bash
-
-        $ pipenv install
-
-    But if your application uses this library through a `requirements.txt` (Pip) or through a
-    `Pipfile` (Pipenv), you should not have to do this "setup for production" command.
+    If it is meant to be deployed alongside with an application, it should be installed from the
+    Pypi repository (or a cache) and installed into the Virtualenv this application will use.
 
 Activate the virtualenv:
 
     .. code-block:: bash
 
-        $ pipenv shell
+        $ make shell  # equivalent to `pipenv shell`
 
 Execute unit tests:
 
     .. code-block:: bash
 
-        $ pipenv run pytest test
+        $ make test-unit
 
-Create a repository on Github, add a remote and push
-
-.. code-block:: bash
-
-    $ git remote add origin http://....
-    $ git push origin
 
 Build source package:
 
@@ -103,7 +97,7 @@ Build source package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py sdist
+        make sdist
 
 Build binary package:
 
@@ -111,7 +105,7 @@ Build binary package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py bdist
+        make bdist
 
 Build Wheel package:
 
@@ -119,7 +113,7 @@ Build Wheel package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py bdist_wheel
+        make wheel
 
 (Only for package owner)
 
@@ -129,7 +123,7 @@ Register and publish your package to Pypi:
 
     .. code-block:: bash
 
-        pipenv run python setup.py sdist register upload
+        ./travis_pypi_setup.py
 
 Create a release:
 
@@ -139,6 +133,7 @@ Create a release:
     .. code-block:: bash
 
         git tag 1.2.3
+        make push
 
     On successful travis build on the Tag branch, your Pypi package will be updated automatically.
 
@@ -146,5 +141,5 @@ Configuration
 -------------
 
 You will need to configure `.travis.yml` to enable automatic PyPi deployment, or use the provided
-`travis_pypi_setup.py` script. Beware your Yaml file will be overwritten, you will have to merge
-it manually.
+`travis_pypi_setup.py` script. Beware your Yaml file will be overwritten, you will have to set the
+format back manually.

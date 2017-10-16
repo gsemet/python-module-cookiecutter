@@ -39,37 +39,17 @@ specification.
 Contributing
 ------------
 
-Create your environment with
+Create your development environment with
 
     .. code-block:: bash
 
-        $ pipenv --three
-
-PS: you can use `pipenv --two` for Python 2.
-
-
-Setup for development and unit tests:
-
-    .. code-block:: bash
-
-        $ pipenv install --dev
-
-Note
-
-    Setup for production can be done with:
-
-    .. code-block:: bash
-
-        $ pipenv install
-
-    But if your application uses this library through a `requirements.txt` (Pip) or through a
-    `Pipfile` (Pipenv), you should not have to do this "setup for production" command.
+        $ make dev
 
 Activate the environment:
 
     .. code-block:: bash
 
-        $ pipenv shell
+        $ make shell  # equivalent to `pipenv shell`
 
 Execute a command directly inside the environment:
 
@@ -81,7 +61,7 @@ Execute unit tests:
 
     .. code-block:: bash
 
-        $ pipenv run pytest test
+        $ make test-unit
 
 Build source package:
 
@@ -89,7 +69,7 @@ Build source package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py sdist
+        $ make sdist
 
 Build binary package:
 
@@ -97,7 +77,7 @@ Build binary package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py bdist
+        $ make bdist
 
 Build Wheel package:
 
@@ -105,17 +85,9 @@ Build Wheel package:
 
     .. code-block:: bash
 
-        pipenv run python setup.py bdist_wheel
+        $ make wheel
 
 (Only for package owner)
-
-Register and publish your package to Pypi:
-
-    Do it locally only once, to create your package on `pypi.python.org`.
-
-    .. code-block:: bash
-
-        pipenv run python setup.py sdist register upload
 
 Create a release:
 
@@ -125,5 +97,6 @@ Create a release:
     .. code-block:: bash
 
         git tag 1.2.3
+        make push
 
     On successful travis build on the Tag branch, your Pypi package will be updated automatically.
