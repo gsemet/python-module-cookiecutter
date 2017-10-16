@@ -38,6 +38,7 @@ Feature of the "Python Library" Cookiecutter recipe:
 - Dependencies are defined by range and `Pipfile.lock` is **not** tracked
 - Source code is horst on **Github**
 - Free software: **MIT license**
+- **Badges** for Travis, Coverage, Pypi, ReadTheDoc
 - Python 2, 3 and Pypy, with default set to Python 3
 - **PBR**: handle automatic versioning based on Git Tag, automatic creation of `ChangeLog` and
   `AUTHORS` files
