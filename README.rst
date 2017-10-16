@@ -49,7 +49,7 @@ Feature of the "Python Library" Cookiecutter recipe:
 - **Automatically set Travis CI deployment token** with `travis_pypi_setup.py` script
 - **isort, Yapf, AutoPep8**: code formatting
 - **Pylint, Flake8**: code style
-- **editconfig**: autoconfiguration of almost any editor
+- **Editorconfig**: autoconfiguration of almost any editor
 - **Coverage**: unit test report
 - Use **Pytest** and **Tox** for Unit testing
 - **Sphinx docs**: Documentation ready for generation and publication to **ReadTheDoc**
