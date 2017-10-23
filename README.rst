@@ -34,8 +34,10 @@ See https://github.com/audreyr/cookiecutter for more information about Cookiecut
 
 Feature of the "Python Library" Cookiecutter recipe:
 
-- Use **Pipenv** to manage `Pipfile`.
-- Dependencies are defined by range and `Pipfile.lock` is **not** tracked
+- Use **Pipenv** to manage ``Pipfile``.
+- Dependencies are defined by range and ``Pipfile.lock`` is **not** tracked
+- ``requirements.txt`` and ``requirements-dev.txt`` are AUTOMATICALLY generated for services
+  such as ReadTheDocs that does not support ``Pipfile`` yet.
 - Source code is horst on **Github**
 - Free software: **MIT license**
 - **Badges** for Travis, Coverage, Pypi, ReadTheDoc
@@ -118,27 +120,22 @@ Build Wheel package:
 
         make wheel
 
-(Only for package owner)
+To register Pipy deployment:
 
-Register and publish your package to Pypi:
-
-    Do it locally only once, to create your package on `pypi.python.org`.
-
-    .. code-block:: bash
-
-        ./travis_pypi_setup.py
+- commit your work!
+- enable your project on Travis
+- execute ``pipenv run python travis_pypi_setup.py``
+- the ``.travis.yml`` is rewritten, you may want to restore its formatting.
 
 Create a release:
 
-    Go on GitHub and create a tag with a semver syntax. Optionally you can tag code locally and push
-    to GitHub.
-
     .. code-block:: bash
 
+        make release
         git tag 1.2.3
         make push
 
-    On successful travis build on the Tag branch, your Pypi package will be updated automatically.
+On successful travis build on the Tag branch, your Pypi package will be updated automatically.
 
 Configuration
 -------------

@@ -2,7 +2,7 @@
 
 MODULE:={{ cookiecutter.project_slug }}
 
-all: dev style checks build dists test-unit
+all: dev style checks requirements build dists test-unit
 
 dev:
 	@pipenv install --dev --skip-lock
@@ -43,7 +43,10 @@ test-unit:
 test-coverage:
 	pipenv run py.test -v --cov $(MODULE) --cov-report term-missing
 
-dists: sdist bdist wheels
+requirements:
+	pipenv run pipenv_to_requirements
+
+dists: requirements sdist bdist wheels
 
 sdist:
 	@pipenv run python setup.py sdist
@@ -60,7 +63,7 @@ pypi-publish: build
 update:
 	@pipenv update
 
-githook: style
+githook: style requirements
 
 push: githook
 	@git push origin --tags

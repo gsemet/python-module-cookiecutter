@@ -12,6 +12,7 @@ yapf = ">=0.18"
 PyYAML = ">=3.11"{% endif %}
 {% if cookiecutter.use_pytest == 'y' -%}pytest = ">=2.9.2"{% endif %}
 tox = "*"
+pipenv-to-requirements = "*"
 
 [packages]
 pbr = ">=3.0"
