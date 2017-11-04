@@ -8,29 +8,26 @@ Tests for `{{ cookiecutter.project_slug }}` module.
 """
 
 {% if cookiecutter.use_pytest == 'y' -%}
+from unittest import TestCase
+
 import pytest
 {% else %}
 import sys
-import unittest
+
+from unittest import TestCase
+{%- endif %}
+{% if cookiecutter.use_asyncio == 'y' -%}
+# note: use `asynctest.TestCase` instead of `unittest.TestCase` for your tests running inside
+# the asyncio loop.
+# Tests that do not use asyncio should still inherit from `unittest.TestCase`.
+#
+# uncomment the following string to use asyncio in your tests
+# from asynctest import TestCase
 {%- endif %}
 from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
 
 
-{% if cookiecutter.use_pytest == 'y' -%}
-class Test{{ cookiecutter.project_slug|title }}(object):
-
-    @classmethod
-    def setup_class(cls):
-        pass
-
-    @classmethod
-    def teardown_class(cls):
-        pass
-
-    def test_something(self):
-        pass
-{% else %}
-class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
+class Test{{ cookiecutter.project_slug|title }}(TestCase):
 
     def setUp(self):
         pass
@@ -41,6 +38,7 @@ class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
     def test_000_something(self):
         pass
 
+{% if cookiecutter.use_pytest == 'n' -%}
 if __name__ == '__main__':
     sys.exit(unittest.main())
 {%- endif %}
