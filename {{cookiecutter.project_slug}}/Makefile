@@ -44,6 +44,7 @@ test-coverage:
 	pipenv run py.test -v --cov $(MODULE) --cov-report term-missing
 
 requirements:
+	# needed until PBR supports `Pipfile`
 	pipenv run pipenv_to_requirements
 
 dists: requirements sdist bdist wheels

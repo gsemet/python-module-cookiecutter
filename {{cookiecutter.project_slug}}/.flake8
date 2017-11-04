@@ -3,4 +3,5 @@
 ignore = E226,E302,E41
 max-line-length = 100
 exclude = env
-max-complexity = 25
+max-complexity = 8
+accept-encodings = utf-8

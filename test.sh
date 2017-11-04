@@ -22,15 +22,18 @@ fi
 
 set +e
 
+echo "Setting up environment for testing..."\
+# note: do NOT use --dev here, we want to use the "prod" cookiecutter
 pipenv install
 
 echo "Creating testdir"
 cd $(dirname $0)
 rm -rfv testdir
 mkdir -p testdir
-cd testdir
 
-pipenv run cookiecutter .. << EOF
+echo "Testing cookiecutter receipe..."
+echo "pwd: $PWD"
+pipenv run cookiecutter . -o testdir << EOF
 3
 Author Name
 author.name@server.com
@@ -40,6 +43,8 @@ project_name
 github_username
 pipy_username
 github_repository_name
+y
+y
 y
 y
 

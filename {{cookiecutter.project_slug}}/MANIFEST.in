@@ -1,0 +1,5 @@
+# Place here the files and directory you do not want to have in your source distribution package
+# Note: this dot NOT impact the binary packages (`bdist` and `bdist_wheel`).
+
+#Unit tests
+recursive-exclude {{cookiecutter.project_slug}}/tests *
