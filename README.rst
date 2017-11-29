@@ -121,5 +121,4 @@ Configuration
 -------------
 
 You will need to configure `.travis.yml` to enable automatic PyPi deployment, or use the provided
-`travis_pypi_setup.py` script. Beware your Yaml file will be overwritten, you will have to set the
-format back manually.
+`travis_pypi_setup.py` script.
