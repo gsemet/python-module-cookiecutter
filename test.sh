@@ -28,7 +28,7 @@ pipenv install
 
 echo "Creating testdir"
 cd $(dirname $0)
-rm -rfv testdir
+rm -rf testdir
 mkdir -p testdir
 
 echo "Testing cookiecutter receipe..."
@@ -37,13 +37,12 @@ pipenv run cookiecutter . -o testdir << EOF
 3
 Author Name
 author.name@server.com
-project_name
+test_project_name
 Short Project Description
-project_name
+test_project_name
 github_username
 pipy_username
 github_repository_name
-y
 y
 y
 y

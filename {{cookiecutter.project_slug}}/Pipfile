@@ -12,16 +12,13 @@ yapf = ">=0.18"
 cryptography = ">=1.4"
 PyYAML = ">=3.11"
 {%- endif %}
-{% if cookiecutter.use_pytest == 'y' -%}
-pytest = ">=2.9.2"
-{%- endif %}
+pytest = ">=3.3"
 tox = "*"
 pipenv-to-requirements = ">=0.1.9"
 "flake8-coding" = "*"
 "flake8-comprehensions" = "*"
 {% if cookiecutter.use_asyncio == 'y' -%}
 pytest-asyncio = "*"
-pytest-catchlog = "*"
 asynctest = "*"
 {%- endif %}
 
