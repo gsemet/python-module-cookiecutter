@@ -1,5 +1,5 @@
-State of the Art OpenSource Python Library Cookiecutter
-=======================================================
+Stibons 2017 OpenSource Python Library Cookiecutter
+===================================================
 
 .. image:: https://travis-ci.org/Stibbons/python-library-cookiecutter.svg?branch=master
     :target: https://travis-ci.org/Stibbons/python-library-cookiecutter
@@ -64,7 +64,8 @@ Do not create a folder for your project, it will be automatically created.
 Boostrap your Python library:
 
     .. code-block:: bash
-
+    
+        $ pip3 install --user --upgrade pip cookiecutter
         $ cookiecutter https://github.com/Stibbons/python-library-cookiecutter
         $ # or
         $ cookiecutter gh:Stibbons/python-library-cookiecutter
