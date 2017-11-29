@@ -64,10 +64,13 @@ Do not create a folder for your project, it will be automatically created.
 Boostrap your Python library:
 
     .. code-block:: bash
-    
+
         $ pip3 install --user --upgrade pip cookiecutter
+
         $ cookiecutter https://github.com/Stibbons/python-library-cookiecutter
-        $ # or
+
+        # or
+
         $ cookiecutter gh:Stibbons/python-library-cookiecutter
 
 Setup for development:
@@ -84,49 +87,25 @@ Note
     If it is meant to be deployed alongside with an application, it should be installed from the
     Pypi repository (or a cache) and installed into the Virtualenv this application will use.
 
-Activate the virtualenv:
-
-    .. code-block:: bash
-
-        $ make shell  # equivalent to `pipenv shell`
-
 Execute unit tests:
 
     .. code-block:: bash
 
-        $ make test-unit
+        $ make test
 
-
-Build source package:
+Build package (source, binary and wheels):
 
     Use it for most package without low level system dependencies.
 
     .. code-block:: bash
 
-        make sdist
-
-Build binary package:
-
-    Needed for package with a C or other low level source code.
-
-    .. code-block:: bash
-
-        make bdist
-
-Build Wheel package:
-
-    Always provide a wheel package.
-
-    .. code-block:: bash
-
-        make wheel
+        make dists
 
 To register Pipy deployment:
 
 - commit your work!
 - enable your project on Travis
 - execute ``pipenv run python travis_pypi_setup.py``
-- the ``.travis.yml`` is rewritten, you may want to restore its formatting.
 
 Create a release:
 
