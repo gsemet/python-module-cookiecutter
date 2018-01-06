@@ -5,7 +5,7 @@ verify_ssl = true
 [dev-packages]
 flake8 = ">=3.4"
 pycodestyle = ">=2.0"
-pyflakes = "<1.6.0,>=1.5.0"
+pyflakes = ">=1.6.0"
 pylint = ">=1.7"
 yapf = ">=0.18"
 {% if cookiecutter.use_pypi_deployment_with_travis == 'y' -%}
