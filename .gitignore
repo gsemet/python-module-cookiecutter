@@ -90,4 +90,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+.vscode/
+.mypy_cache/
+
 Pipfile.lock

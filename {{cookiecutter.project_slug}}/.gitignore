@@ -39,6 +39,9 @@ venv
 .project
 .pydevproject
 
+# Visual Studio Code
+.vscode/
+
 # Complexity
 output/*.html
 output/*/index.html
@@ -55,5 +58,9 @@ doc/build
 ChangeLog
 AUTHORS
 
-# Don't track lock file for libraries
+{% if not cookiecutter.is_application -%}
+# remove this line if you want to track the lock file for your application
 Pipfile.lock
+{%- endif %}
+
+docs/_build

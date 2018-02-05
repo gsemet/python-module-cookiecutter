@@ -5,22 +5,24 @@ verify_ssl = true
 [dev-packages]
 flake8 = ">=3.4"
 pycodestyle = ">=2.0"
-pyflakes = ">=1.6.0"
-pylint = ">=1.7"
+pyflakes = "*"
+pylint = ">=1.8"
 yapf = ">=0.18"
-{% if cookiecutter.use_pypi_deployment_with_travis == 'y' -%}
-cryptography = ">=1.4"
-PyYAML = ">=3.11"
-{%- endif %}
-pytest = ">=3.3"
-tox = "*"
+pytest = ">=2.9.2,<3.4"
 pipenv-to-requirements = ">=0.1.9"
 "flake8-coding" = "*"
 "flake8-comprehensions" = "*"
-{% if cookiecutter.use_asyncio == 'y' -%}
-pytest-asyncio = "*"
-asynctest = "*"
-{%- endif %}
+pytest-mock = "*"
+pytest-sugar = "*"
+mock = "*"
+rope = "*"
+isort = ">=4.3.2"
+sphinx-rtd-theme = "*"
+sphinx = "*"
+"m2r" = "*"
+"autopep8" = "*"
+mypy = "*"
 
 [packages]
 pbr = ">=3.0"
+typing = {markers="python_version < '3.5'"}

@@ -28,22 +28,41 @@ pipenv install
 
 echo "Creating testdir"
 cd $(dirname $0)
-rm -rf testdir
+rm -rfv testdir
 mkdir -p testdir
 
 echo "Testing cookiecutter receipe..."
 echo "pwd: $PWD"
-pipenv run cookiecutter . -o testdir << EOF
-3
+pipenv run cookiecutter -v . -o testdir/all << EOF
 Author Name
 author.name@server.com
-test_project_name
-Short Project Description
-test_project_name
-github_username
-pipy_username
-github_repository_name
 y
+project_name
+Short Project Description
+project_slug
+github_username
+github_repository_name
+pypi_username
+y
+y
+y
+
+EOF
+
+
+echo "Testing cookiecutter receipe..."
+echo "pwd: $PWD"
+pipenv run cookiecutter -v . -o testdir/no_docker << EOF
+Author Name
+author.name@server.com
+y
+project_name
+Short Project Description
+project_slug
+github_username
+github_repository_name
+pypi_username
+n
 y
 y
 

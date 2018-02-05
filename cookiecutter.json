@@ -1,14 +1,14 @@
 {
-	"python_version": "3",
-	"full_name": "Author Name",
-	"email": "author@server.com",
-	"project_name": "my_project_name",
-	"project_short_description": "Short Description of My Library",
-	"project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-	"github_username": "github_username",
-	"pypi_username": "{{ cookiecutter.github_username }}",
-	"github_repository_name": "{{ cookiecutter.project_slug }}",
-	"use_pypi_deployment_with_travis": "y",
-	"create_developer_env_after_scapfolding": "y",
-	"use_asyncio": "y"
+    "full_name": "Author Name",
+    "email": "author@server.com",
+    "is_application": "n",
+    "project_name": "Human Readable Project Name",
+    "project_short_description": "Short Description of My Library",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace('.', '-').replace(' ', '_') }}",
+    "github_username": "github_username",
+    "github_repository_name": "{{ cookiecutter.project_slug }}",
+    "pypi_username": "{{ cookiecutter.github_username }}",
+    "use_pypi_deployment_with_travis": "y",
+    "docker_build": "y",
+    "add_git_remote_after_scapfolding": "y"
 }

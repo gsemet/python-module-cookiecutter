@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+#!/usr/bin/env python3
 
 import os
 import subprocess
@@ -15,27 +12,21 @@ def remove_file(filepath):
 
 
 if __name__ == '__main__':
-    if '{{ cookiecutter.use_pypi_deployment_with_travis }}' != 'y':
-        remove_file('travis_pypi_setup.py')
 
     print("Creating git repository (needed for PBR to fully work)")
     subprocess.check_call(["git", "init", "."])
 
-    if '{{ cookiecutter.create_developer_env_after_scapfolding }}' == 'y':
-        print("Setting up a virtual environment")
-        pyversion = "--three"
-        if '{{ cookiecutter.python_version }}' == '2':
-            pyversion = "--two"
-        subprocess.check_call(["pipenv", pyversion])
-        subprocess.check_call(["pipenv", "install", "--dev"])
+    if '{{ cookiecutter.add_git_remote_after_scapfolding }}' == 'y':
+        subprocess.check_call(["git", "remote", "add", "origin",
+            "https://github.com/"
+            "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+        ])
+        print("Please ensure the creation of the following project in githab: "
+            "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}")
 
-        print("Initial build...")
-        venv = subprocess.check_output(["pipenv", "--venv"]).strip().decode('utf8')
-        # Cannot use directly `pipenv run`, it requires a TTY, and the
-        # --no-interactive options is not available on every version
-        subprocess.check_call([os.path.join(venv,
-                                            "bin",
-                                            "python"), "setup.py", "sdist"])
+    subprocess.check_call(["git", "add", ".*", "*"])
+    subprocess.check_call(["git", "commit", "-m", 'Initial cookiecutter commit', "--all"])
 
-        print("Developer environment created. Activate with:")
-        print("  pipenv shell")
+    if '{{ cookiecutter.docker_build }}' == 'n':
+        print("docker not required, removing docker related files")
+        subprocess.check_call(["rm", "-fv", "Dockerfile", ".dockerignore"])

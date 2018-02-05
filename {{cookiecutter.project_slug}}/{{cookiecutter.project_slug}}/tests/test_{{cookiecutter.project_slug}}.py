@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 """
 test_{{ cookiecutter.project_slug }}
@@ -7,17 +7,22 @@ test_{{ cookiecutter.project_slug }}
 Tests for `{{ cookiecutter.project_slug }}` module.
 """
 
+# Third Party Libraries
+import logging
 import pytest
-{% if cookiecutter.use_asyncio == 'y' -%}
-# note: use `asynctest.TestCase` instead of `unittest.TestCase` for your tests running inside
-# the asyncio loop.
-# Tests that do not use asyncio should still inherit from `unittest.TestCase`.
-#
-# uncomment the following string to use asyncio in your tests
-# from asynctest import TestCase
-{%- endif %}
-from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+
+# {{ cookiecutter.project_name }} Modules
+# from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+
+# pylint: disable=redefined-outer-name, unused-argument
+
+log = logging.getLogger(__name__)
+
+@pytest.fixture
+def setup_000(mocker):
+    # mocker.patch("module.to.patchsleep")
+    yield
 
 
-def test_{{ cookiecutter.project_slug }}():
+def test_000_something(setup_000):
     pass

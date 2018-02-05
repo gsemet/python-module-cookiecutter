@@ -1,6 +1,9 @@
-
 [flake8]
-ignore = E226,E302,E41
+ignore =
+    E226,
+    E302,
+    E41,
+    E722,
 max-line-length = 100
 exclude = env
 max-complexity = 8

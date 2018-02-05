@@ -22,7 +22,7 @@ try:
 except:
     from urllib.request import urlopen
 
-GITHUB_REPO = 'github_username/github_repository_name'
+GITHUB_REPO = '{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name}}'
 TRAVIS_CONFIG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '.travis.yml')
 

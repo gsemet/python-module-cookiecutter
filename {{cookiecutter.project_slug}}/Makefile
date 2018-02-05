@@ -1,22 +1,58 @@
-.PHONY: build
+.PHONY: build docs
+
+# ==================================================================================================
+# Variables
+# ==================================================================================================
 
 MODULE:={{ cookiecutter.project_slug }}
 
-all: dev style checks requirements build dists test-unit
 
-dev:
-	pipenv install --dev --skip-lock
+# ==================================================================================================
+# do-it-all targets
+# ==================================================================================================
 
-install-local:
-	pipenv install --skip-lock
+all: dev style checks dists test
 
-install-system:
-	pipenv install --system
+dev: ensure-pipenv pipenv-install-dev requirements ln-venv
+
+
+# ==================================================================================================
+# Install targets
+# ==================================================================================================
+
+ensure-pipenv:
+	pip3 install --user --upgrade 'pipenv>=9.0' 'pip>=9.0'
+	@echo "ensure your local python install is in your PATH"
+
+pipenv-install-dev:
+	pipenv install --dev
+
+ln-venv:
+	# use that to configure a symbolic link to the virtualenv in .venv
+	rm -rf .venv
+	ln -s $$(pipenv --venv) .venv
+
+.venv: ln-venv
+
+install-local: install-local-only-deps install-local-only-curpackage
+
+install-local-only-deps:
+	# Install only dependencies
+	pipenv install
+
+install-local-only-curpackage:
+	# Install current package as well
+	pipenv run pip install .
+
+
+# ==================================================================================================
+# Code formatting targets
+# ==================================================================================================
 
 style: isort autopep8 yapf
 
 isort:
-	pipenv run isort -y
+	pipenv run isort -y -rc $(MODULE)
 
 autopep8:
 	pipenv run autopep8 --in-place --recursive setup.py $(MODULE)
@@ -24,7 +60,20 @@ autopep8:
 yapf:
 	pipenv run yapf --style .yapf --recursive -i $(MODULE)
 
-checks: sdist flake8 pylint
+format: style
+
+
+# ==================================================================================================
+# Static checks targets
+# ==================================================================================================
+
+checks: pep508 isort-check flake8 pylint mypy
+
+pep508:
+	pipenv check
+
+isort-check:
+	pipenv run isort -c -rc $(MODULE)
 
 flake8:
 	pipenv run python setup.py flake8
@@ -32,22 +81,38 @@ flake8:
 pylint:
 	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULE)
 
-build: dists
+mypy:
+	# Static type checker only enabled on methods that uses Python Type Annotations
+	pipenv run mypy --config-file .mypy.ini $(MODULE)
 
-shell:
-	pipenv shell
+clean-mypy:
+	rm -rf .venv .mypy_cache || true
 
-test-unit:
+sc: style check
+
+sct: style check test
+
+# ==================================================================================================
+# Test targets
+# ==================================================================================================
+
+test:
 	pipenv run pytest $(MODULE)
+
+test-v:
+	pipenv run pytest -vv $(MODULE)
 
 test-coverage:
 	pipenv run py.test -v --cov $(MODULE) --cov-report term-missing
 
-requirements:
-	# needed until PBR supports `Pipfile`
-	pipenv run pipenv_to_requirements
+
+# ==================================================================================================
+# Distribution packages targets
+# ==================================================================================================
 
 dists: requirements sdist bdist wheels
+
+build: dists
 
 sdist:
 	pipenv run python setup.py sdist
@@ -55,29 +120,127 @@ sdist:
 bdist:
 	pipenv run python setup.py bdist
 
-wheels:
+wheel:
 	pipenv run python setup.py bdist_wheel
 
-pypi-publish: build
-	pipenv run python setup.py upload -r pypi
+clean-dist:
+	rm -rfv build dist/
 
-update:
+
+{%- if cookiecutter.docker_build %}
+# ==================================================================================================
+# Docker targets
+# ==================================================================================================
+
+docker:
+	docker build .
+
+
+{%- endif %}
+# ==================================================================================================
+# Misc targets
+# ==================================================================================================
+
+shell:
+	pipenv shell
+
+ctags:
+	find -name '*.py' -exec ctags -a {} \;
+
+update: pipenv-update dev
+
+pipenv-update:
 	pipenv update
 
+requirements:
+	# needed until PBR supports `Pipfile`
+	{% if cookiecutter.is_application -%}
+	# Freeze requirements for applications
+	pipenv run pipenv_to_requirements --freeze
+	{% else -%}
+	pipenv run pipenv_to_requirements
+	{%- endif %}
+
+update-recreate: update style check test
+
+lock:
+	pipenv lock
+
+
 githook: style requirements
+
+
+# ==================================================================================================
+# Publish targets
+# ==================================================================================================
 
 push: githook
 	git push origin --all
 	git push origin --tags
 
-# aliases to gracefully handle typos on poor dev's terminal
+publish: clean-dist dists
+	pipenv run python setup.py sdist bdist_wheel upload -r nexus || true
+
+
+
+# ==================================================================================================
+# Clean targets
+# ==================================================================================================
+
+clean: clean-dist clean-docs clean-mypy
+	pipenv --rm || true
+	find . -name '__pycache__'  -exec rm -rf {} \; || true
+	find . -name '.cache'  -exec rm -rf {} \; || true
+	find . -name '*.egg-info'  -exec rm -rf {} \; || true
+	find . -name "*.pyc" -exec rm -f {} \; || true
+
+
+# ==================================================================================================
+# Documentation targets
+# ==================================================================================================
+
+docs: clean-docs sdist
+	pipenv run make -C docs/ html
+
+clean-docs:
+	rm -rfv docs/_build
+
+docs-apidoc:
+	pipenv run sphinx-apidoc \
+		-f \
+		-o docs/source/reference \
+		-e \
+		--no-toc \
+		--no-headings \
+		{{ cookiecutter.project_slug }} \
+			{{ cookiecutter.project_slug }}/tests
+
+docs-open:
+	xdg-open docs/_build/html/index.html
+
+
+# ==================================================================================================
+# Run targets
+# ==================================================================================================
+
+run:
+	# add you run commands here
+	# pipenv run ...
+
+
+# ==================================================================================================
+# Aliases to gracefully handle typos on poor dev's terminal
+# ==================================================================================================
+
 check: checks
 devel: dev
 develop: dev
+doc: docs
 dist: dists
-install: install-system
-pypi: pypi-publish
 styles: style
-test: test-unit
-unittest: test-unit
-wheel: wheels
+test-unit: test
+unittest: test
+unittests: test
+unit-tests: test
+ut: test
+wheels: wheel

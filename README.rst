@@ -1,11 +1,47 @@
-Stibons 2017 OpenSource Python Library Cookiecutter
-===================================================
+Modern Python Module Cookiecutter
+=================================
 
-.. image:: https://travis-ci.org/Stibbons/python-library-cookiecutter.svg?branch=master
-    :target: https://travis-ci.org/Stibbons/python-library-cookiecutter
+.. image:: https://travis-ci.org/gsemet/python-module-cookiecutter.svg?branch=master
+    :target: https://travis-ci.org/gsemet/python-module-cookiecutter
 
-Cookie cutter recipe for bootstrapping an OpenSource Python **library** using state of the art,
-free services and the best "opensource" mindset.
+Cookie cutter recipe for bootstrapping an state of the art Python module using free services and the
+best "opensource" mindset.
+
+
+TD;DR
+-----
+Pipenv + PBR + Travis + Auto Pipy publish + autoformatting (yapf, isort) + static checks (pylint,
+flake8, mypy) + sphinx doc
+
+
+Python Library Receipe Features
+-------------------------------
+
+See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
+
+Feature of the "Python Library" Cookiecutter recipe:
+
+- Use `Pipenv <https://github.com/pypa/pipenv>`_ to describe dependencies in ``Pipfile``
+- Source code is hosted on **Github**
+- Free software: **MIT license**
+- **Badges** for Travis, Coverage, Pypi, ReadTheDoc
+- handle automatic versioning derived from Git Tag with
+  `PBR <https://docs.openstack.org/pbr/latest/>`_. It also automatic creates `ChangeLog` and
+  `AUTHORS` files from Git history
+- a **Makefile** allows easy daily-life for developers and maintainers
+- **isort, Yapf, AutoPep8** code formatting
+- **Pylint, Flake8, Mypy**: static checks
+- **Editorconfig**: autoconfiguration of almost any editor
+- build and unit test on **Travis-CI**
+- Use **Pytest** for Unit testing
+- automatic deployment to **Pypi** of distribution packages and wheels on successful build on a
+  tagged commit ("Tag to release" principle)
+- **Automatically set Travis CI deployment token** with `travis_pypi_setup.py` script
+- **Coverage** unit test report
+- **Sphinx docs**: Documentation ready for generation and publication to **ReadTheDoc**
+
+Please note this cookiecutter does not support Python 2 intentionnaly.
+
 
 Library vs Application
 ----------------------
@@ -13,48 +49,21 @@ Library vs Application
 It is important to differentiate a Python "Library" and a Python "Application". Each form have its
 own life and should handle dependencies differently:
 
-- To ensure stability and reproductibility of the deployment of an **application**, a good practice
-  is to **freeze the versions of all its dependencies**, so, no matter what happens for example on
-  https://pypi.python.org for example a new, buggy version of a package your application relies on
-  actually break your application. Without proper "frozen" dependencies management, you might get
-  this dependency library deployed on production without any validation.
+- To ensure stability and reproductibility of the deployment of an **Application**, a good practice
+  is to **freeze the versions of all its dependencies** (both direct and indirect), so, no matter
+  what happens for example on https://pypi.python.org, for example a new, buggy version of a
+  package your application relies on might actually break your deployment.
+  Without proper "frozen" dependencies management, you might get this dependency library deployed
+  on production without any validation.
 
-- for a **library**, dependencies versions should not be frozen and should be defined using version
+- A **Library** does not have any meaning alone, it is always used by at least an application.
+  The dependencies of a library should not be frozen and should be defined using version
   ranges.
   For example, let's imagine your library depends on a module A in version 1.0. Your library is
   then used in an application that also depends on the same module A, but in version 1.2. The best
   way to handle this is to let libraries describe the range of supported versions, and let the
   package manager (Pip) find the best candidates.
 
-
-Python Library Receipe Features
-------------------------------
-
-See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
-
-Feature of the "Python Library" Cookiecutter recipe:
-
-- Use **Pipenv** to manage ``Pipfile``.
-- Dependencies are defined by range and ``Pipfile.lock`` is **not** tracked
-- ``requirements.txt`` and ``requirements-dev.txt`` are AUTOMATICALLY generated for services
-  such as ReadTheDocs that does not support ``Pipfile`` yet.
-- Source code is horst on **Github**
-- Free software: **MIT license**
-- **Badges** for Travis, Coverage, Pypi, ReadTheDoc
-- Python 2, 3 and Pypy, with default set to Python 3
-- **PBR**: handle automatic versioning based on Git Tag, automatic creation of `ChangeLog` and
-  `AUTHORS` files
-- **Pypi**: automatic deployment of distribution package or wheels on successful Travis Tag build
-- **Makefile** to ease daily-life of developers and maintainers
-- **Travis-CI**: build, unit test
-- **Automatically deploy successful tagged version** to Pypi
-- **Automatically set Travis CI deployment token** with `travis_pypi_setup.py` script
-- **isort, Yapf, AutoPep8**: code formatting
-- **Pylint, Flake8**: code style
-- **Editorconfig**: autoconfiguration of almost any editor
-- **Coverage**: unit test report
-- Use **Pytest** and **Tox** for Unit testing
-- **Sphinx docs**: Documentation ready for generation and publication to **ReadTheDoc**
 
 Usage
 -----
@@ -65,27 +74,19 @@ Boostrap your Python library:
 
     .. code-block:: bash
 
-        $ pip3 install --user --upgrade pip cookiecutter
+        $ pip3 install --user --upgrade pip pipenv cookiecutter
 
-        $ cookiecutter https://github.com/Stibbons/python-library-cookiecutter
+        $ cookiecutter https://github.com/gsemet/python-module-cookiecutter
 
         # or
 
-        $ cookiecutter gh:Stibbons/python-library-cookiecutter
+        $ cookiecutter gh:gsemet/python-module-cookiecutter
 
 Setup for development:
 
     .. code-block:: bash
 
         $ make dev
-
-Note
-
-    Deploying a "library" in production has little to no meaning. If it is intended to be deployed
-    directly on the system, use your distribution package manager (`apt`, 'brew', 'yum', ...)
-
-    If it is meant to be deployed alongside with an application, it should be installed from the
-    Pypi repository (or a cache) and installed into the Virtualenv this application will use.
 
 Execute unit tests:
 
