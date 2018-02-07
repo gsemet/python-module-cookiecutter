@@ -64,3 +64,4 @@ Pipfile.lock
 {%- endif %}
 
 docs/_build
+.pytest_cache/
