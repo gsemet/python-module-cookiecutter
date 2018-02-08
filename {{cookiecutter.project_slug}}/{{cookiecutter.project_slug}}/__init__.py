@@ -2,7 +2,7 @@
 
 import pbr.version
 
-import {{ cookiecutter.project_slug }}._{{ cookiecutter.project_slug }} import MyPublicClass
+from {{ cookiecutter.project_slug }}._{{ cookiecutter.project_slug }} import MyPublicClass
 
 
 def version():
