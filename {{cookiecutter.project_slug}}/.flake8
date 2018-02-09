@@ -1,9 +1,7 @@
 [flake8]
 ignore =
-    E226,
-    E302,
-    E41,
-    E722,
+    # <code>,   # description
+    E722,       # do not use bare except' (done by pylint)
 max-line-length = 100
 exclude = env
 max-complexity = 8
