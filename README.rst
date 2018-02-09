@@ -37,7 +37,7 @@ Feature of the "Python Library" Cookiecutter recipe:
 - automatic deployment to **Pypi** of distribution packages and wheels on successful build on a
   tagged commit ("Tag to release" principle)
 - **Automatically set Travis CI deployment token** with `travis_pypi_setup.py` script
-- **Coverage** unit test report
+- **Coverage** unit test code coverage report
 - **Sphinx docs**: Documentation ready for generation and publication to **ReadTheDoc**
 
 Please note this cookiecutter does not support Python 2 intentionnaly.

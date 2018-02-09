@@ -22,6 +22,7 @@ sphinx = "*"
 "m2r" = "*"
 "autopep8" = "*"
 mypy = "*"
+pytest-cov = "*"
 
 [packages]
 pbr = ">=3.0"

@@ -4,7 +4,7 @@
 # Variables
 # ==================================================================================================
 
-MODULE:={{ cookiecutter.project_slug }}
+MODULES:={{ cookiecutter.project_slug }}
 
 
 # ==================================================================================================
@@ -52,13 +52,13 @@ install-local-only-curpackage:
 style: isort autopep8 yapf
 
 isort:
-	pipenv run isort -y -rc $(MODULE)
+	pipenv run isort -y -rc $(MODULES)
 
 autopep8:
-	pipenv run autopep8 --in-place --recursive setup.py $(MODULE)
+	pipenv run autopep8 --in-place --recursive setup.py $(MODULES)
 
 yapf:
-	pipenv run yapf --style .yapf --recursive -i $(MODULE)
+	pipenv run yapf --style .yapf --recursive -i $(MODULES)
 
 format: style
 
@@ -73,17 +73,17 @@ pep508:
 	pipenv check
 
 isort-check:
-	pipenv run isort -c -rc $(MODULE)
+	pipenv run isort -c -rc $(MODULES)
 
 flake8:
 	pipenv run python setup.py flake8
 
 pylint:
-	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULE)
+	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
 
 mypy:
 	# Static type checker only enabled on methods that uses Python Type Annotations
-	pipenv run mypy --config-file .mypy.ini $(MODULE)
+	pipenv run mypy --config-file .mypy.ini $(MODULES)
 
 clean-mypy:
 	rm -rf .venv .mypy_cache || true
@@ -97,13 +97,13 @@ sct: style check test
 # ==================================================================================================
 
 test:
-	pipenv run pytest $(MODULE)
+	pipenv run pytest $(MODULES)
 
 test-v:
-	pipenv run pytest -vv $(MODULE)
+	pipenv run pytest -vv $(MODULES)
 
 test-coverage:
-	pipenv run py.test -v --cov $(MODULE) --cov-report term-missing
+	pipenv run py.test -v --cov {{ cookiecutter.project_slug }} --cov-append $(MODULES)
 
 
 # ==================================================================================================

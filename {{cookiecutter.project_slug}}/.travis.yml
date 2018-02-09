@@ -9,15 +9,15 @@ python:
   - 3.4
 
 install:
-  - pip install -U pip pipenv
+  - pip install -U pip pipenv codecov
   - make dev
 
 script:
   - make check
-  - make test-unit
+  - make test-coverage
 
 after_success:
-  coveralls
+  codecov
 
 {% if cookiecutter.use_pypi_deployment_with_travis == 'y' -%}
 # After you create the Github repo and add it to Travis, run the
