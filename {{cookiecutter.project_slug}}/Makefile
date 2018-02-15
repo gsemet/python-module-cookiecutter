@@ -5,6 +5,7 @@
 # ==================================================================================================
 
 MODULES:={{ cookiecutter.project_slug }}
+PACKAGE_NAME:={{ cookiecutter.project_slug }}
 
 
 # ==================================================================================================
@@ -103,7 +104,7 @@ test-v:
 	pipenv run pytest -vv $(MODULES)
 
 test-coverage:
-	pipenv run py.test -v --cov {{ cookiecutter.project_slug }} --cov-append $(MODULES)
+	pipenv run py.test -v --cov $(PACKAGE_NAME) --cov-report html:coverage_html --cov-report term $(MODULES)
 
 
 # ==================================================================================================
@@ -231,8 +232,8 @@ docs-apidoc:
 		-e \
 		--no-toc \
 		--no-headings \
-		{{ cookiecutter.project_slug }} \
-			{{ cookiecutter.project_slug }}/tests
+		$(PACKAGE_NAME) \
+			$(PACKAGE_NAME)/tests
 
 docs-open:
 	xdg-open docs/_build/html/index.html
