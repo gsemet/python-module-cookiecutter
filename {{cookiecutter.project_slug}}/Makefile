@@ -199,7 +199,7 @@ push: githook
 	git push origin --tags
 
 publish: clean-dist dists
-	pipenv run python setup.py sdist bdist_wheel upload -r nexus || true
+	pipenv run python setup.py sdist bdist_wheel upload -r pypi-test || true
 
 
 
