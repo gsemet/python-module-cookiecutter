@@ -25,5 +25,5 @@ mypy = "*"
 pytest-cov = "*"
 
 [packages]
-pbr = ">=3.0"
+pbr = ">=4.0"
 typing = {markers="python_version < '3.5'"}
