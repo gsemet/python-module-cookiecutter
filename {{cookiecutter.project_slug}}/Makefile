@@ -7,7 +7,7 @@
 MODULES:={{ cookiecutter.project_slug }}
 PACKAGE_NAME:={{ cookiecutter.project_slug }}
 PIP:=/usr/bin/env python3 -m pip
-PIPENV:=/usr/bin/env pipenv
+PIPENV:=pipenv
 
 # ==================================================================================================
 # do-it-all targets
