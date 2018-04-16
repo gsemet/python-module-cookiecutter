@@ -20,4 +20,5 @@ RUN         make install-local-only-curpackage
 
 # Add here default arguments for the application. Can be overriden by environment variables
 # Modify the default entrypoint to execute your command
-# ENTRYPOINT  [ "pipenv", "run", "<my-command>"]
+ENTRYPOINT  [ "pipenv", "run"]
+CMD         ["{{ cookiecutter.project_slug }}"]

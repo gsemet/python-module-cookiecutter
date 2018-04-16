@@ -15,6 +15,6 @@ def version():
 #
 #
 __all__ = [
-#     '__version__',
+    'version',
     'MyPublicClass',
 ]

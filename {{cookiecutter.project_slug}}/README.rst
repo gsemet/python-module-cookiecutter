@@ -93,8 +93,7 @@ Create a release:
 
     .. code-block:: bash
 
-        make release
-        git tag 1.2.3
+        make tag-pbr
         make push
 
 On successful travis build on the Tag branch, your Pypi package will be updated automatically.
