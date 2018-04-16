@@ -1,5 +1,6 @@
+***********************************************************
 Modern Python Module Cookiecutter (Library and Application)
-===========================================================
+***********************************************************
 
 .. image:: https://travis-ci.org/gsemet/python-module-cookiecutter.svg?branch=master
     :target: https://travis-ci.org/gsemet/python-module-cookiecutter
@@ -9,13 +10,13 @@ best "opensource" mindset.
 
 
 TD;DR
------
+=====
 Pipenv + PBR + Travis + Auto Pipy publish + autoformatting (yapf, isort) + static checks (pylint,
 flake8, mypy) + sphinx doc, for both "Library" and "Application" use cases
 
 
 Python Module Cookiecutter Features
------------------------------------
+===================================
 
 See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
 
@@ -42,9 +43,50 @@ Feature of the "Python Module" Cookiecutter recipe:
 
 Please note this cookiecutter does not support Python 2 intentionnaly.
 
+Usage
+=====
+
+Bootstrap
+---------
+
+Do not create a folder for your project, it will be automatically created.
+
+Boostrap your Python library (or app):
+
+.. code-block:: bash
+
+    $ pip3 install --user --upgrade pip pipenv cookiecutter
+    # or
+    $ python3 -m pip install --user --upgrade pip pipenv cookiecutter
+
+    # Then the cookiecutter can be invoked:
+
+    $ cookiecutter https://github.com/gsemet/python-module-cookiecutter
+    # or
+    $ cookiecutter gh:gsemet/python-module-cookiecutter
+
+
+Questions upon bootstraping
+---------------------------
+
+This cookiecutter will ask you a series of questions:
+
+- ``full_name``: Author name. To fill the "Author" field of the module manifest.
+- ``email``: Author email. To fill the "email" field of the module manifest
+- ``is_application``: `y` for application, `n` for library (see bellow for explanation)
+- ``project_name``: Human Readable Project Name, for example "My wonderful library"
+- ``project_short_description``: one-line description of the project
+- ``project_slug``: project name without space and other special charact. Name of the python modules.
+- ``github_username``: GitHub user name
+- ``github_repository_name``: project name on GitHub
+- ``pypi_username``: username on Pypi
+- ``use_pypi_deployment_with_travis``: deploy with travis on successful tag build
+- ``docker_build``: create ``Dockerfile``
+- ``add_git_remote_after_scapfolding``: add git remote to GitHub project
+
 
 Library vs Application
-----------------------
+======================
 
 It is important to differentiate a Python "Library" and a Python "Application". Each form have its
 own life and should handle dependencies differently:
@@ -64,23 +106,6 @@ own life and should handle dependencies differently:
   way to handle this is to let libraries describe the range of supported versions, and let the
   package manager (Pip) find the best candidates.
 
-
-Usage
------
-
-Do not create a folder for your project, it will be automatically created.
-
-Boostrap your Python library (or app):
-
-    .. code-block:: bash
-
-        $ pip3 install --user --upgrade pip pipenv cookiecutter
-
-        $ cookiecutter https://github.com/gsemet/python-module-cookiecutter
-
-        # or
-
-        $ cookiecutter gh:gsemet/python-module-cookiecutter
 
 Setup for development:
 

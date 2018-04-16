@@ -1,7 +1,7 @@
 {
     "full_name": "Author Name",
     "email": "author@server.com",
-    "is_application": "n",
+    "is_application": "y",
     "project_name": "Human Readable Project Name",
     "project_short_description": "Short Description of My Library",
     "project_slug": "{{ cookiecutter.project_name.lower().replace('.', '-').replace(' ', '_') }}",

@@ -37,7 +37,7 @@ pipenv run cookiecutter -v . -o testdir/all << EOF
 Author Name
 author.name@server.com
 y
-project_name
+project name
 Short Project Description
 project_slug
 github_username
@@ -56,7 +56,7 @@ pipenv run cookiecutter -v . -o testdir/no_docker << EOF
 Author Name
 author.name@server.com
 y
-project_name
+project name
 Short Project Description
 project_slug
 github_username
