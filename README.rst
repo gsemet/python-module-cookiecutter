@@ -1,5 +1,5 @@
-Modern Python Module Cookiecutter
-=================================
+Modern Python Module Cookiecutter (Library and Application)
+===========================================================
 
 .. image:: https://travis-ci.org/gsemet/python-module-cookiecutter.svg?branch=master
     :target: https://travis-ci.org/gsemet/python-module-cookiecutter
@@ -11,15 +11,15 @@ best "opensource" mindset.
 TD;DR
 -----
 Pipenv + PBR + Travis + Auto Pipy publish + autoformatting (yapf, isort) + static checks (pylint,
-flake8, mypy) + sphinx doc
+flake8, mypy) + sphinx doc, for both "Library" and "Application" use cases
 
 
-Python Library Receipe Features
--------------------------------
+Python Module Cookiecutter Features
+-----------------------------------
 
 See https://github.com/audreyr/cookiecutter for more information about Cookiecutter.
 
-Feature of the "Python Library" Cookiecutter recipe:
+Feature of the "Python Module" Cookiecutter recipe:
 
 - Use `Pipenv <https://github.com/pypa/pipenv>`_ to describe dependencies in ``Pipfile``
 - Source code is hosted on **Github**
@@ -70,7 +70,7 @@ Usage
 
 Do not create a folder for your project, it will be automatically created.
 
-Boostrap your Python library:
+Boostrap your Python library (or app):
 
     .. code-block:: bash
 
@@ -112,9 +112,7 @@ Create a release:
 
     .. code-block:: bash
 
-        make release
-        git tag 1.2.3
-        make push
+        make tag-pbr
 
 On successful travis build on the Tag branch, your Pypi package will be updated automatically.
 
