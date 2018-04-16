@@ -1,4 +1,4 @@
-.PHONY: build docs
+².PHONY: build docs
 
 # ==================================================================================================
 # Variables
@@ -6,7 +6,8 @@
 
 MODULES:={{ cookiecutter.project_slug }}
 PACKAGE_NAME:={{ cookiecutter.project_slug }}
-
+PIP:=/usr/bin/env python3 -m pip
+PIPENV:=/usr/bin/env pipenv
 
 # ==================================================================================================
 # do-it-all targets
@@ -22,16 +23,16 @@ dev: ensure-pipenv pipenv-install-dev requirements ln-venv
 # ==================================================================================================
 
 ensure-pipenv:
-	pip3 install --user --upgrade 'pipenv>=9.0' 'pip>=9.0'
+	$(PIP) install --user --upgrade 'pipenv>=9.0' 'pip>=9.0'
 	@echo "ensure your local python install is in your PATH"
 
 pipenv-install-dev:
-	pipenv install --dev
+	$(PIPENV) install --dev
 
 ln-venv:
 	# use that to configure a symbolic link to the virtualenv in .venv
 	rm -rf .venv
-	ln -s $$(pipenv --venv) .venv
+	ln -s $$($(PIPENV) --venv) .venv
 
 .venv: ln-venv
 
@@ -39,11 +40,11 @@ install-local: install-local-only-deps install-local-only-curpackage
 
 install-local-only-deps:
 	# Install only dependencies
-	pipenv install
+	$(PIPENV) install
 
 install-local-only-curpackage:
 	# Install current package as well
-	pipenv run pip install .
+	$(PIPENV) run pip install .
 
 
 # ==================================================================================================
@@ -53,13 +54,13 @@ install-local-only-curpackage:
 style: isort autopep8 yapf
 
 isort:
-	pipenv run isort -y -rc $(MODULES)
+	$(PIPENV) run isort -y -rc $(MODULES)
 
 autopep8:
-	pipenv run autopep8 --in-place --recursive setup.py $(MODULES)
+	$(PIPENV) run autopep8 --in-place --recursive setup.py $(MODULES)
 
 yapf:
-	pipenv run yapf --style .yapf --recursive -i $(MODULES)
+	$(PIPENV) run yapf --style .yapf --recursive -i $(MODULES)
 
 format: style
 
@@ -71,20 +72,20 @@ format: style
 checks: pep508 isort-check flake8 pylint mypy
 
 pep508:
-	pipenv check
+	$(PIPENV) check
 
 isort-check:
-	pipenv run isort -c -rc $(MODULES)
+	$(PIPENV) run isort -c -rc $(MODULES)
 
 flake8:
-	pipenv run python setup.py flake8
+	$(PIPENV) run python setup.py flake8
 
 pylint:
-	pipenv run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
+	$(PIPENV) run pylint --rcfile=.pylintrc --output-format=colorized $(MODULES)
 
 mypy:
 	# Static type checker only enabled on methods that uses Python Type Annotations
-	pipenv run mypy --config-file .mypy.ini $(MODULES)
+	$(PIPENV) run mypy --config-file .mypy.ini $(MODULES)
 
 clean-mypy:
 	rm -rf .venv .mypy_cache || true
@@ -98,13 +99,13 @@ sct: style check test
 # ==================================================================================================
 
 test:
-	pipenv run pytest $(MODULES)
+	$(PIPENV) run pytest $(MODULES)
 
 test-v:
-	pipenv run pytest -vv $(MODULES)
+	$(PIPENV) run pytest -vv $(MODULES)
 
 test-coverage:
-	pipenv run py.test -v --cov $(PACKAGE_NAME) --cov-report html:coverage_html --cov-report term $(MODULES)
+	$(PIPENV) run py.test -v --cov $(PACKAGE_NAME) --cov-report html:coverage_html --cov-report term $(MODULES)
 
 
 # ==================================================================================================
@@ -116,13 +117,13 @@ dists: requirements sdist bdist wheels
 build: dists
 
 sdist:
-	pipenv run python setup.py sdist
+	$(PIPENV) run python setup.py sdist
 
 bdist:
-	pipenv run python setup.py bdist
+	$(PIPENV) run python setup.py bdist
 
 wheel:
-	pipenv run python setup.py bdist_wheel
+	$(PIPENV) run python setup.py bdist_wheel
 
 clean-dist:
 	rm -rfv build dist/
@@ -143,7 +144,7 @@ docker:
 # ==================================================================================================
 
 shell:
-	pipenv shell
+	$(PIPENV) shell
 
 ctags:
 	find -name '*.py' -exec ctags -a {} \;
@@ -151,21 +152,21 @@ ctags:
 update: pipenv-update dev
 
 pipenv-update:
-	pipenv update
+	$(PIPENV) update
 
 requirements:
 	# needed until PBR supports `Pipfile`
 	{% if cookiecutter.is_application -%}
 	# Freeze requirements for applications
-	pipenv run pipenv_to_requirements --freeze
+	$(PIPENV) run pipenv_to_requirements --freeze
 	{% else -%}
-	pipenv run pipenv_to_requirements
+	$(PIPENV) run pipenv_to_requirements
 	{%- endif %}
 
 update-recreate: update style check test
 
 lock:
-	pipenv lock
+	$(PIPENV) lock
 
 
 githook: style requirements
@@ -178,12 +179,12 @@ githook: style requirements
 tag-pbr:
 	@{ \
 		set -e ;\
-		export VERSION=$$(pipenv run python setup.py --version | cut -d. -f1,2,3); \
+		export VERSION=$$($(PIPENV) run python setup.py --version | cut -d. -f1,2,3); \
 		echo "I: Computed new version: $$VERSION"; \
 		echo "I: presse ENTER to accept or type new version number:"; \
 		read VERSION_OVERRIDE; \
 		VERSION=$${VERSION_OVERRIDE:-$$VERSION}; \
-		PROJECTNAME=$$(pipenv run python setup.py --name); \
+		PROJECTNAME=$$($(PIPENV) run python setup.py --name); \
 		echo "I: Tagging $$PROJECTNAME in version $$VERSION with tag: $$VERSION" ; \
 		echo "$$ git tag -s $$VERSION -m \"$$PROJECTNAME $$VERSION\""; \
 		echo "I: Pushing tag $$VERSION, press ENTER to continue, C-c to interrupt"; \
@@ -199,7 +200,7 @@ push: githook
 	git push origin --tags
 
 publish: clean-dist dists
-	pipenv run python setup.py sdist bdist_wheel upload -r pypi-test || true
+	$(PIPENV) run python setup.py sdist bdist_wheel upload -r pypi-test || true
 
 
 
@@ -208,7 +209,7 @@ publish: clean-dist dists
 # ==================================================================================================
 
 clean: clean-dist clean-docs clean-mypy
-	pipenv --rm || true
+	$(PIPENV) --rm || true
 	find . -name '__pycache__'  -exec rm -rf {} \; || true
 	find . -name '.cache'  -exec rm -rf {} \; || true
 	find . -name '*.egg-info'  -exec rm -rf {} \; || true
@@ -220,13 +221,13 @@ clean: clean-dist clean-docs clean-mypy
 # ==================================================================================================
 
 docs: clean-docs sdist
-	pipenv run make -C docs/ html
+	$(PIPENV) run make -C docs/ html
 
 clean-docs:
 	rm -rfv docs/_build
 
 docs-apidoc:
-	pipenv run sphinx-apidoc \
+	$(PIPENV) run sphinx-apidoc \
 		-f \
 		-o docs/source/reference \
 		-e \
@@ -245,7 +246,7 @@ docs-open:
 
 run:
 	# add you run commands here
-	# pipenv run ...
+	# $(PIPENV) run ...
 
 
 # ==================================================================================================
