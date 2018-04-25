@@ -27,7 +27,7 @@ ensure-pipenv:
 	@echo "ensure your local python install is in your PATH"
 
 pipenv-install-dev:
-	$(PIPENV) install --dev
+	$(PIPENV) install --dev {%- if not cookiecutter.is_application %} --skip-lock {%- endif %}
 
 ln-venv: clean-ln-venv
 	# use that to configure a symbolic link to the virtualenv in .venv
@@ -42,7 +42,7 @@ install-local: install-local-only-deps install-local-only-curpackage
 
 install-local-only-deps:
 	# Install only dependencies
-	$(PIPENV) install
+	$(PIPENV) install --deploy {%- if not cookiecutter.is_application %} --skip-lock {%- endif %}
 
 install-local-only-curpackage:
 	# Install current package as well
@@ -216,7 +216,10 @@ clean: clean-dist clean-docs clean-mypy clean-ln-venv
 	find . -name '.cache'  -exec rm -rf {} \; || true
 	find . -name '*.egg-info'  -exec rm -rf {} \; || true
 	find . -name "*.pyc" -exec rm -f {} \; || true
-
+	rm -rf .pytest_cache || true
+	{% if not cookiecutter.is_application -%}
+	rm -rf Pipfile.lock || true
+	{%- endif %}
 
 # ==================================================================================================
 # Documentation targets
