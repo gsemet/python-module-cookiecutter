@@ -15,7 +15,7 @@ PIPENV:=pipenv
 
 all: dev style checks dists test
 
-dev: ensure-pipenv pipenv-install-dev requirements ln-venv
+dev: clean-ln-venv ensure-pipenv pipenv-install-dev requirements ln-venv
 
 
 # ==================================================================================================
@@ -29,12 +29,14 @@ ensure-pipenv:
 pipenv-install-dev:
 	$(PIPENV) install --dev
 
-ln-venv:
+ln-venv: clean-ln-venv
 	# use that to configure a symbolic link to the virtualenv in .venv
-	rm -rf .venv
 	ln -s $$($(PIPENV) --venv) .venv
 
 .venv: ln-venv
+
+clean-ln-venv:
+	@rm -f .venv
 
 install-local: install-local-only-deps install-local-only-curpackage
 
@@ -88,7 +90,7 @@ mypy:
 	$(PIPENV) run mypy --config-file .mypy.ini $(MODULES)
 
 clean-mypy:
-	rm -rf .venv .mypy_cache || true
+	rm -rf .mypy_cache || true
 
 sc: style check
 
@@ -208,7 +210,7 @@ publish: clean-dist dists
 # Clean targets
 # ==================================================================================================
 
-clean: clean-dist clean-docs clean-mypy
+clean: clean-dist clean-docs clean-mypy clean-ln-venv
 	$(PIPENV) --rm || true
 	find . -name '__pycache__'  -exec rm -rf {} \; || true
 	find . -name '.cache'  -exec rm -rf {} \; || true
