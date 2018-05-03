@@ -71,7 +71,7 @@ format: style
 # Static checks targets
 # ==================================================================================================
 
-checks: pep508 isort-check flake8 pylint mypy bandit
+checks: pep508 isort-check flake8 pylint mypy bandit pydocstyle
 
 pep508:
 	$(PIPENV) check
@@ -90,8 +90,11 @@ mypy:
 	$(PIPENV) run mypy --config-file .mypy.ini $(MODULES)
 
 bandit:
-￼		pipenv run bandit -c .bandit.yml -r $(MODULES)
+	pipenv run bandit -c .bandit.yml -r $(MODULES)
 ￼
+pydocstyle:
+	pipenv run pydocstyle $(MODULES)
+
 clean-mypy:
 	rm -rf .mypy_cache || true
 
@@ -264,12 +267,13 @@ run:
 check: checks
 devel: dev
 develop: dev
-doc: docs
 dist: dists
+doc: docs
 styles: style
 test-unit: test
+tests: test
+unit-tests: test
 unittest: test
 unittests: test
-unit-tests: test
 ut: test
 wheels: wheel

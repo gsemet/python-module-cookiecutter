@@ -48,6 +48,7 @@ y
 y
 
 EOF
+( cd testdir/docker_app/project_slug && make style checks tests )
 
 
 echo "Testing cookiecutter receipe..."
@@ -67,5 +68,7 @@ y
 y
 
 EOF
+
+( cd testdir/library/project_slug && make style checks tests )
 
 echo "Test went successful (in $PWD)"

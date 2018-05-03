@@ -23,6 +23,7 @@ sphinx = "*"
 "autopep8" = "*"
 mypy = "*"
 pytest-cov = "*"
+pydocstyle = "*"
 
 [packages]
 pbr = ">=4.0"
