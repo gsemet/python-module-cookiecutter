@@ -4,7 +4,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = ">=3.4"
-pycodestyle = ">=2.0"
+pycodestyle = ">=2.0,<2.4"
 pyflakes = "*"
 pylint = ">=1.8"
 yapf = ">=0.18"

@@ -33,7 +33,7 @@ mkdir -p testdir
 
 echo "Testing cookiecutter receipe..."
 echo "pwd: $PWD"
-pipenv run cookiecutter -v . -o testdir/all << EOF
+pipenv run cookiecutter -v . -o testdir/docker_app << EOF
 Author Name
 author.name@server.com
 y
@@ -52,10 +52,10 @@ EOF
 
 echo "Testing cookiecutter receipe..."
 echo "pwd: $PWD"
-pipenv run cookiecutter -v . -o testdir/no_docker << EOF
+pipenv run cookiecutter -v . -o testdir/library << EOF
 Author Name
 author.name@server.com
-y
+n
 project name
 Short Project Description
 project_slug

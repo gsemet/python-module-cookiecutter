@@ -71,7 +71,7 @@ format: style
 # Static checks targets
 # ==================================================================================================
 
-checks: pep508 isort-check flake8 pylint mypy
+checks: pep508 isort-check flake8 pylint mypy bandit
 
 pep508:
 	$(PIPENV) check
@@ -89,6 +89,9 @@ mypy:
 	# Static type checker only enabled on methods that uses Python Type Annotations
 	$(PIPENV) run mypy --config-file .mypy.ini $(MODULES)
 
+bandit:
+￼		pipenv run bandit -c .bandit.yml -r $(MODULES)
+￼
 clean-mypy:
 	rm -rf .mypy_cache || true
 
