@@ -23,7 +23,7 @@ dev: clean-ln-venv ensure-pipenv pipenv-install-dev requirements ln-venv
 # ==================================================================================================
 
 ensure-pipenv:
-	$(PIP) install --user --upgrade 'pipenv>=9.0' 'pip>=9.0'
+	$(PIP) install --user --upgrade 'pipenv<=11.10.1' 'pip>=10'
 	@echo "ensure your local python install is in your PATH"
 
 pipenv-install-dev:
