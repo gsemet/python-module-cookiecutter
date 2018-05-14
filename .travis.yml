@@ -9,7 +9,7 @@ python:
     # - "pypy3" Not supported by pip/virtualenv yet
 
 install:
-  - pip3 install pipenv>=4.0 virtualenv>=12.0.2
+  - pip install pipenv>=4.0 virtualenv>=12.0.2
 
 script:
   - pipenv check
