@@ -257,7 +257,7 @@ docs-open:
 
 run:
 	# add you run commands here
-	# $(PIPENV) run ...
+	$(PIPENV) run {{ cookiecutter.project_slug }}
 
 
 # ==================================================================================================
