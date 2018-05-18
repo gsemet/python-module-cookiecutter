@@ -71,13 +71,16 @@ format: style
 # Static checks targets
 # ==================================================================================================
 
-checks: pep508 isort-check flake8 pylint mypy bandit pydocstyle
+checks: pep508 isort-check yapf-check flake8 pylint mypy bandit pydocstyle
 
 pep508:
 	$(PIPENV) check
 
 isort-check:
 	$(PIPENV) run isort -c -rc $(MODULES)
+
+yapf-check:
+	pipenv run yapf --style .yapf --recursive --diff $(MODULES)
 
 flake8:
 	$(PIPENV) run python setup.py flake8
