@@ -234,25 +234,30 @@ clean: clean-dist clean-docs clean-mypy clean-ln-venv
 	rm -rf Pipfile.lock || true
 	{%- endif %}
 
+
 # ==================================================================================================
 # Documentation targets
 # ==================================================================================================
 
-docs: clean-docs sdist
-	$(PIPENV) run make -C docs/ html
+DOCS_EXCLUSION=$(foreach m, $(MODULES), $m/tests)
+
+docs: clean-docs sdist docs-generate-apidoc docs-run-sphinx
+
+docs-generate-apidoc:
+	pipenv run sphinx-apidoc \
+		--force \
+		--separate \
+		--module-first \
+		--doc-project "API Reference" \
+		-o docs/source/reference \
+		$(PACKAGE_NAME) \
+			$(DOCS_EXCLUSION)
+
+docs-run-sphinx:
+	pipenv run make -C docs/ html
 
 clean-docs:
-	rm -rfv docs/_build
-
-docs-apidoc:
-	$(PIPENV) run sphinx-apidoc \
-		-f \
-		-o docs/source/reference \
-		-e \
-		--no-toc \
-		--no-headings \
-		$(PACKAGE_NAME) \
-			$(PACKAGE_NAME)/tests
+	rm -rf docs/_build docs/source/reference/*.rst
 
 docs-open:
 	xdg-open docs/_build/html/index.html
