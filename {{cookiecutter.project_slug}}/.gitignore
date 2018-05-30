@@ -47,7 +47,8 @@ output/*.html
 output/*/index.html
 
 # Sphinx
-doc/build
+docs/_build
+docs/source/reference/*.rst
 
 # Editors
 *~
@@ -63,5 +64,4 @@ AUTHORS
 Pipfile.lock
 {%- endif %}
 
-docs/_build
 .pytest_cache/
