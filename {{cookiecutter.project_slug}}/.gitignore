@@ -65,3 +65,5 @@ Pipfile.lock
 {%- endif %}
 
 .pytest_cache/
+.mypy_cache/
+.tox/
