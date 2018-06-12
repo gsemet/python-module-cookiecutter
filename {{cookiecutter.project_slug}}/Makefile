@@ -28,6 +28,7 @@ ensure-pipenv:
 
 pipenv-install-dev:
 	$(PIPENV) install --dev {%- if not cookiecutter.is_application %} --skip-lock {%- endif %}
+	$(PIPENV) run pip install -e .
 
 ln-venv: clean-ln-venv
 	# use that to configure a symbolic link to the virtualenv in .venv
