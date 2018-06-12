@@ -7,7 +7,6 @@ blank_line_before_class_docstring = true
 blank_line_before_module_docstring = true
 blank_line_before_nested_class_or_def = true
 coalesce_brackets = false
-column_limit = 100
 dedent_closing_brackets = false
 indent_dictionary_value = true
 spaces_around_power_operator = false
