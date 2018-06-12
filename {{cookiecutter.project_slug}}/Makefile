@@ -8,6 +8,8 @@ MODULES:={{ cookiecutter.project_slug }}
 PACKAGE_NAME:={{ cookiecutter.project_slug }}
 PIP:=/usr/bin/env python3 -m pip
 PIPENV:=pipenv
+PYTHON:=python3
+
 
 # ==================================================================================================
 # do-it-all targets
@@ -27,7 +29,7 @@ ensure-pipenv:
 	@echo "ensure your local python install is in your PATH"
 
 pipenv-install-dev:
-	$(PIPENV) install --dev {%- if not cookiecutter.is_application %} --skip-lock {%- endif %}
+	$(PIPENV) install --dev {%- if not cookiecutter.is_application %} --skip-lock {%- endif %} --python $(PYTHON)
 	$(PIPENV) run pip install -e .
 
 ln-venv: clean-ln-venv
