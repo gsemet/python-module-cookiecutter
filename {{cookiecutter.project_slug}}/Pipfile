@@ -24,6 +24,7 @@ sphinx = "*"
 mypy = "*"
 pytest-cov = "*"
 pydocstyle = "*"
+bandit = "*"
 
 [packages]
 pbr = ">=4.0"
