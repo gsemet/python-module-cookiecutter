@@ -94,7 +94,7 @@ mypy:
 
 bandit:
 	pipenv run bandit -c .bandit.yml -r $(MODULES)
-￼
+
 pydocstyle:
 	pipenv run pydocstyle $(MODULES)
 
