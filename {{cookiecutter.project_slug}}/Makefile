@@ -9,7 +9,7 @@ PACKAGE_NAME:={{ cookiecutter.project_slug }}
 EXECUTABLE_NAME:={{ cookiecutter.project_slug }}
 
 PIPENV:=pipenv
-PYTHON:=/usr/bin/env python3
+PYTHON:=$(shell which python3)
 PIP:=$(PYTHON) -m pip
 
 
