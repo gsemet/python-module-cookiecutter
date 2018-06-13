@@ -30,3 +30,5 @@ if __name__ == '__main__':
     if '{{ cookiecutter.docker_build }}' == 'n':
         print("docker not required, removing docker related files")
         subprocess.check_call(["rm", "-fv", "Dockerfile", ".dockerignore"])
+
+    print("Please execute 'make dev style' and amend the initial commit before first push!")

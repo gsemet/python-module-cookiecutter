@@ -20,7 +20,15 @@ else
     pipenv --three
 fi
 
-set +e
+
+only=
+if [[ "$1" == "docker_app" ]]; then
+    only="docker_app"
+elif [[ "$1" = "library" ]]; then
+    only="library"
+fi
+
+set -xe
 
 echo "Setting up environment for testing..."\
 # note: do NOT use --dev here, we want to use the "prod" cookiecutter
@@ -28,12 +36,13 @@ pipenv install
 
 echo "Creating testdir"
 cd $(dirname $0)
-rm -rfv testdir
+rm -rf testdir
 mkdir -p testdir
 
-echo "Testing cookiecutter receipe..."
-echo "pwd: $PWD"
-pipenv run cookiecutter -v . -o testdir/docker_app << EOF
+if [[ -z $only ]] || [[ $only == "docker_app" ]]; then
+    echo "Testing docker_app..."
+    echo "pwd: $PWD"
+    pipenv run cookiecutter -v . -o testdir/docker_app << EOF
 Author Name
 author.name@server.com
 y
@@ -48,12 +57,17 @@ y
 y
 
 EOF
-( cd testdir/docker_app/project_slug && make style checks tests )
+    (
+        cd testdir/docker_app/project_slug
+        make style checks tests
+    )
+fi
 
 
-echo "Testing cookiecutter receipe..."
-echo "pwd: $PWD"
-pipenv run cookiecutter -v . -o testdir/library << EOF
+if [[ -z $only ]] || [[ $only == "library" ]]; then
+    echo "Testing library..."
+    echo "pwd: $PWD"
+    pipenv run cookiecutter -v . -o testdir/library << EOF
 Author Name
 author.name@server.com
 n
@@ -69,6 +83,10 @@ y
 
 EOF
 
-( cd testdir/library/project_slug && make style checks tests )
+    (
+        cd testdir/library/project_slug
+        make style checks tests
+    )
 
-echo "Test went successful (in $PWD)"
+    echo "Test went successful (in $PWD)"
+fi
