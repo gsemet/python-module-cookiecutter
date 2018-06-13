@@ -6,9 +6,11 @@
 
 MODULES:={{ cookiecutter.project_slug }}
 PACKAGE_NAME:={{ cookiecutter.project_slug }}
-PIP:=/usr/bin/env python3 -m pip
+EXECUTABLE_NAME:={{ cookiecutter.project_slug }}
+
 PIPENV:=pipenv
-PYTHON:=python3
+PYTHON:=/usr/bin/env python3
+PIP:=$(PYTHON) -m pip
 
 
 # ==================================================================================================
@@ -222,7 +224,6 @@ publish: clean-dist dists
 	$(PIPENV) run python setup.py sdist bdist_wheel upload -r pypi-test || true
 
 
-
 # ==================================================================================================
 # Clean targets
 # ==================================================================================================
@@ -273,7 +274,7 @@ docs-open:
 
 run:
 	# add you run commands here
-	$(PIPENV) run {{ cookiecutter.project_slug }}
+	$(PIPENV) run $(EXECUTABLE_NAME)
 
 
 # ==================================================================================================
