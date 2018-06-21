@@ -1,0 +1,10 @@
+# This file exists so you can easily regenerate your project.
+#
+# Simply run:
+#
+#    cookiecutter --overwrite-if-exists --config-file=project-path/.cookiecutterrc http://url/to/original/template
+
+default_context:
+{% for key, value in cookiecutter.items()|sort %}
+    {{ "{0:26}".format(key + ":") }} {{ "{0!r}".format(value).strip("u") }}
+{%- endfor %}
