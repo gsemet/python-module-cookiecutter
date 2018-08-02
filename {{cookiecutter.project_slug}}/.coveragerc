@@ -5,4 +5,6 @@ source = {{cookiecutter.project_slug}}
 [report]
 ignore_errors = True
 omit =
-    {{ cookiecutter.project_slug }}/tests/*
+    test_*
+    */tests/*
+    */unit_tests/*
