@@ -71,7 +71,7 @@ Questions upon bootstraping
 
 This cookiecutter will ask you a series of questions:
 
-- ``full_name``: Author name. To fill the "Author" field of the module manifest.
+- ``team_name``: Author name. To fill the "Author" field of the module manifest.
 - ``email``: Author email. To fill the "email" field of the module manifest
 - ``is_application``: `y` for application, `n` for library (see bellow for explanation)
 - ``project_name``: Human Readable Project Name, for example "My wonderful library"
