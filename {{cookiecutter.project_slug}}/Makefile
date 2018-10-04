@@ -1,5 +1,6 @@
 .PHONY: build docs
 
+
 # ==================================================================================================
 # Variables
 # ==================================================================================================
@@ -11,15 +12,49 @@ EXECUTABLE_NAME:={{ cookiecutter.project_slug }}
 PIPENV:=pipenv
 PYTHON:=$(shell which python3)
 PIP:=$(PYTHON) -m pip
+PIPENV_LOCK_ARGS:= --deploy --ignore-pipfile
+
+
+# ==================================================================================================
+# General Functions
+# ==================================================================================================
+
+define BROWSER_PYSCRIPT
+import os, webbrowser, sys
+from urllib.request import pathname2url
+webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
+endef
+export BROWSER_PYSCRIPT
+BROWSER := python3 -c "$$BROWSER_PYSCRIPT"
+
+define PRINT_HELP_PYSCRIPT
+import re, sys
+for line in sys.stdin:
+	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
+	if match:
+		target, help = match.groups()
+		print("%-30s %s" % (target, help))
+endef
+export PRINT_HELP_PYSCRIPT
+
+
+# ==================================================================================================
+# help target
+# ==================================================================================================
+
+help:  ## This help message
+	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 
 # ==================================================================================================
 # do-it-all targets
 # ==================================================================================================
 
-all: dev style checks dists test
+all: dev style checks dists test  ## Build everything
 
-dev: clean-ln-venv ensure-pipenv pipenv-install-dev requirements ln-venv
+dev: clean-venv ensure-pipenv mk-venv pipenv-install-dev requirements  ## Setup dev environment
+
+initial-dev: clean-pipenv clean-venv mk-venv pipenv-update requirements style  ## Initial dev environment
 
 
 # ==================================================================================================
@@ -27,21 +62,20 @@ dev: clean-ln-venv ensure-pipenv pipenv-install-dev requirements ln-venv
 # ==================================================================================================
 
 ensure-pipenv:
-	$(PIP) install --user --upgrade 'pipenv>=11.10.1' 'pip>=10'
+	$(PIP) install --user --upgrade 'pipenv==2018.7.1' 'pip==18.1'
 	@echo "ensure your local python install is in your PATH"
 
 pipenv-install-dev:
-	$(PIPENV) install --dev {%- if not cookiecutter.is_application %} --skip-lock {%- endif %} --python $(PYTHON)
+	$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON)
 	$(PIPENV) run pip install -e .
 
-ln-venv: clean-ln-venv
-	# use that to configure a symbolic link to the virtualenv in .venv
-	ln -s $$($(PIPENV) --venv) .venv
+mk-venv: clean-venv
+	mkdir -p .venv
 
-.venv: ln-venv
+.venv: mk-venv
 
-clean-ln-venv:
-	@rm -f .venv
+clean-venv:
+	@rm -rf .venv
 
 install-local: install-local-only-deps install-local-only-curpackage
 
@@ -53,12 +87,24 @@ install-local-only-curpackage:
 	# Install current package as well
 	$(PIPENV) run pip install .
 
+pipenv-install-anyway:  ## Use it for the first install or update method
+	if [ -f Pipfile.lock ]; then \
+		pipenv install --dev --ignore-pipfile; \
+	else \
+		pipenv install --dev --skip-lock; \
+	fi;
+	pipenv run pip install -e .
+
+pipenv-install-inspect:
+	pipenv install --skip-lock --dev
+	pipenv graph
+
 
 # ==================================================================================================
 # Code formatting targets
 # ==================================================================================================
 
-style: isort autopep8 yapf
+style: isort autopep8 yapf  ## Format code
 
 isort:
 	$(PIPENV) run isort -y -rc $(MODULES)
@@ -76,7 +122,7 @@ format: style
 # Static checks targets
 # ==================================================================================================
 
-checks: pep508 isort-check yapf-check flake8 pylint mypy bandit pydocstyle
+checks: pep508 isort-check yapf-check flake8 pylint mypy bandit pydocstyle  ## Static analysis
 
 pep508:
 	$(PIPENV) check
@@ -115,7 +161,7 @@ sct: style check test
 # Test targets
 # ==================================================================================================
 
-test:
+test:  ## Execute unit tests
 	$(PIPENV) run pytest $(MODULES)
 
 test-v:
@@ -129,7 +175,7 @@ test-coverage:
 # Distribution packages targets
 # ==================================================================================================
 
-dists: requirements sdist bdist wheels
+dists: requirements sdist bdist wheels  ## Build all distribution packages
 
 build: dists
 
@@ -146,20 +192,17 @@ clean-dist:
 	rm -rfv build dist/
 
 
-{%- if cookiecutter.docker_build == 'y' %}
-
+{% if cookiecutter.docker_build == 'y' -%}
 
 # ==================================================================================================
 # Docker targets
 # ==================================================================================================
 
-docker:
+docker:   ## Build docker image
 	docker build .
 
 
-{%- endif %}
-
-
+{% endif %}
 # ==================================================================================================
 # Misc targets
 # ==================================================================================================
@@ -170,10 +213,10 @@ shell:
 ctags:
 	find -name '*.py' -exec ctags -a {} \;
 
-update: pipenv-update dev
+update: clean-pipenv clean-venv mk-venv pipenv-update dev ## Update dependencies
 
 pipenv-update:
-	$(PIPENV) update
+	$(PIPENV) update --clear
 
 requirements:
 	# needed until PBR supports `Pipfile`
@@ -187,7 +230,7 @@ requirements:
 update-recreate: update style check test
 
 lock:
-	$(PIPENV) lock
+	$(PIPENV) lock --clear
 
 
 githook: style requirements
@@ -197,7 +240,7 @@ githook: style requirements
 # Publish targets
 # ==================================================================================================
 
-tag-pbr:
+tag-pbr:  ## Print commands to tag next release
 	@{ \
 		set -e ;\
 		export VERSION=$$($(PIPENV) run python setup.py --version | cut -d. -f1,2,3); \
@@ -228,8 +271,7 @@ publish: clean-dist dists
 # Clean targets
 # ==================================================================================================
 
-clean: clean-dist clean-docs clean-mypy clean-ln-venv
-	$(PIPENV) --rm || true
+clean: clean-dist clean-docs clean-mypy clean-venv clean-pipenv   ## Clean environment
 	find . -name '__pycache__'  -exec rm -rf {} \; || true
 	find . -name '.cache'  -exec rm -rf {} \; || true
 	find . -name '*.egg-info'  -exec rm -rf {} \; || true
@@ -237,6 +279,8 @@ clean: clean-dist clean-docs clean-mypy clean-ln-venv
 	rm -rf .pytest_cache || true
 	rm -rf coverage_html || true
 
+clean-pipenv:
+	$(PIPENV) --rm || true
 
 # ==================================================================================================
 # Documentation targets
@@ -244,7 +288,7 @@ clean: clean-dist clean-docs clean-mypy clean-ln-venv
 
 DOCS_EXCLUSION=$(foreach m, $(MODULES), $m/tests)
 
-docs: clean-docs sdist docs-generate-apidoc docs-run-sphinx
+docs: clean-docs sdist docs-generate-apidoc docs-run-sphinx  ## Build online documentation
 
 docs-generate-apidoc:
 	pipenv run sphinx-apidoc \

@@ -2,15 +2,17 @@
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
+[requires]
+python_version = '3'
+
 [dev-packages]
 flake8 = ">=3.4"
-pycodestyle = ">=2.0,<2.4"
-pyflakes = "<2.0.0"
+pycodestyle = "<2.4.0"
+pyflakes = "<2"
 pylint = ">=1.8"
 yapf = ">=0.22"
 pytest = ">=3.4"
 pipenv-to-requirements = ">=0.1.9"
-"flake8-coding" = "*"
 "flake8-comprehensions" = "*"
 pytest-mock = "*"
 pytest-sugar = ">=0.9.1"
