@@ -59,11 +59,6 @@ docs/source/reference/*.rst
 ChangeLog
 AUTHORS
 
-{% if not cookiecutter.is_application -%}
-# remove this line if you want to track the lock file for your application
-Pipfile.lock
-{%- endif %}
-
 .pytest_cache/
 .mypy_cache/
 .tox/

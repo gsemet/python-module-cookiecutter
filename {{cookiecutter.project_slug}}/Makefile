@@ -235,9 +235,7 @@ clean: clean-dist clean-docs clean-mypy clean-ln-venv
 	find . -name '*.egg-info'  -exec rm -rf {} \; || true
 	find . -name "*.pyc" -exec rm -f {} \; || true
 	rm -rf .pytest_cache || true
-	{% if not cookiecutter.is_application -%}
-	rm -rf Pipfile.lock || true
-	{%- endif %}
+	rm -rf coverage_html || true
 
 
 # ==================================================================================================
