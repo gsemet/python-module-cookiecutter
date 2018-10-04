@@ -1,4 +1,4 @@
-.PHONY: build docs
+.PHONY: build docs mk-venv
 
 
 # ==================================================================================================
@@ -52,9 +52,9 @@ help:  ## This help message
 
 all: dev style checks dists test  ## Build everything
 
-dev: clean-venv ensure-pipenv mk-venv pipenv-install-dev requirements  ## Setup dev environment
+dev: ensure-pipenv mk-venv pipenv-install-dev requirements  ## Setup dev environment
 
-initial-dev: clean-pipenv clean-venv mk-venv pipenv-update requirements style  ## Initial dev environment
+initial-dev: update style  ## Initial dev environment
 
 
 # ==================================================================================================
@@ -62,12 +62,26 @@ initial-dev: clean-pipenv clean-venv mk-venv pipenv-update requirements style  #
 # ==================================================================================================
 
 ensure-pipenv:
-	$(PIP) install --user --upgrade 'pipenv==2018.7.1' 'pip==18.1'
-	@echo "ensure your local python install is in your PATH"
+	@if [ ! -z "$(VIRTUALENV)" ]; then \
+		$(PIP) install --user --upgrade 'pipenv==2018.7.1' 'pip==18.0'; \
+		echo "ensure your local python install is in your PATH"; \
+	else \
+	    echo "WARNING: In a virtualenv, do not try to update user's pipenv and pip"; \
+	fi
 
 pipenv-install-dev:
-	$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON)
-	$(PIPENV) run pip install -e .
+	@$(pipenv --venv)
+	# Do not use destructive "--python" or "--three" option if the venv already exists
+	# See https://github.com/pypa/pipenv/issues/349
+	@if [ $$? -eq 0 ]; then \
+		echo "$(PIPENV) install --dev $(PIPENV_LOCK_ARGS)" ; \
+		$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) ; \
+	else \
+		echo "$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON)" ; \
+		$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON) ; \
+	fi
+	pipenv run pip install -e .
+
 
 mk-venv: clean-venv
 	mkdir -p .venv
@@ -87,7 +101,7 @@ install-local-only-curpackage:
 	# Install current package as well
 	$(PIPENV) run pip install .
 
-pipenv-install-anyway:  ## Use it for the first install or update method
+pipenv-install-anyway:
 	if [ -f Pipfile.lock ]; then \
 		pipenv install --dev --ignore-pipfile; \
 	else \
@@ -213,10 +227,11 @@ shell:
 ctags:
 	find -name '*.py' -exec ctags -a {} \;
 
-update: clean-pipenv clean-venv mk-venv pipenv-update dev ## Update dependencies
+update: clean-pipenv ensure-pipenv mk-venv pipenv-update pipenv-install-dev requirements  ## Update dependencies
 
 pipenv-update:
 	$(PIPENV) update --clear
+	mkdir -p .venv
 
 requirements:
 	# needed until PBR supports `Pipfile`
