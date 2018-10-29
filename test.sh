@@ -32,6 +32,7 @@ set -xe
 
 echo "Setting up environment for testing..."\
 # note: do NOT use --dev here, we want to use the "prod" cookiecutter
+python3 -m pip install --upgrade pip==18.1 pipenv==2018.10.9
 pipenv install
 
 echo "Creating testdir"

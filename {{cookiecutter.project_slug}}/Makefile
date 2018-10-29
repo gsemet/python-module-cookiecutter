@@ -63,7 +63,7 @@ initial-dev: update style  ## Initial dev environment
 
 ensure-pipenv:
 	@if [ ! -z "$(VIRTUALENV)" ]; then \
-		$(PIP) install --user --upgrade 'pipenv==2018.7.1' 'pip==18.0'; \
+		$(PIP) install --user --upgrade pip==18.1 pipenv==2018.10.9; \
 		echo "ensure your local python install is in your PATH"; \
 	else \
 	    echo "WARNING: In a virtualenv, do not try to update user's pipenv and pip"; \
@@ -189,15 +189,12 @@ test-coverage:
 # Distribution packages targets
 # ==================================================================================================
 
-dists: requirements sdist bdist wheels  ## Build all distribution packages
+dists: requirements sdist wheels  ## Build all distribution packages
 
 build: dists
 
 sdist:
 	$(PIPENV) run python setup.py sdist
-
-bdist:
-	$(PIPENV) run python setup.py bdist
 
 wheel:
 	$(PIPENV) run python setup.py bdist_wheel

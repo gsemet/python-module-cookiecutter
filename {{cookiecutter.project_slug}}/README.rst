@@ -66,14 +66,6 @@ Build source package:
 
         make sdist
 
-Build binary package:
-
-    Needed for package with a C or other low level source code.
-
-    .. code-block:: bash
-
-        make bdist
-
 Build Wheel package:
 
     Always provide a wheel package.
