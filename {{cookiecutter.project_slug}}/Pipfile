@@ -34,5 +34,5 @@ typing = {markers="python_version < '3.5'"}
 structlog = "*"
 boltons = "*"
 scandir = {markers="python_version < '3.5'"}
-pathlib2 = "*"
+path-py = "*"
 attrs = "*"
