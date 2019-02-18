@@ -14,6 +14,8 @@ PYTHON:=$(shell which python3)
 PIP:=$(PYTHON) -m pip
 PIPENV_LOCK_ARGS:= --deploy --ignore-pipfile
 
+PIPENV_VERSION=2018.11.26
+PIP_VERSION=19.0.2
 
 # ==================================================================================================
 # General Functions
@@ -63,7 +65,7 @@ initial-dev: update style  ## Initial dev environment
 
 ensure-pipenv:
 	@if [ ! -z "$(VIRTUALENV)" ]; then \
-		$(PIP) install --user --upgrade pip==18.1 pipenv==2018.10.9; \
+		$(PIP) install --user --upgrade pip==$(PIP_VERSION) pipenv==$(PIPENV_VERSION); \
 		echo "ensure your local python install is in your PATH"; \
 	else \
 	    echo "WARNING: In a virtualenv, do not try to update user's pipenv and pip"; \
