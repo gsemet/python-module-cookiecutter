@@ -231,12 +231,11 @@ pipenv-update:
 	mkdir -p .venv
 
 requirements:
-	# needed until PBR supports `Pipfile`
-	{% if cookiecutter.is_application -%}
-	# Freeze requirements for applications
-	$(PIPENV) run pipenv_to_requirements --freeze
-	{% else -%}
+	# A "requirements.txt" is needed when pip installing your module until PBR supports `Pipfile`
 	$(PIPENV) run pipenv_to_requirements
+	{% if cookiecutter.is_application -%}
+	# Also freeze requirements from lock file for applications, for information purpose
+	$(PIPENV) run pipenv_to_requirements --freeze --output requirements-prod.txt
 	{%- endif %}
 
 update-recreate: update style check test
