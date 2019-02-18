@@ -2,7 +2,6 @@ FROM        python:3.6
 
 WORKDIR     /app
 ADD         Pipfile* Makefile /app/
-COPY        deps/    /app/deps/
 # Disable PBR try to read version from git information for modules in the deps/ directory
 # If PBR cannot find metadata information (only for sdist/bdist/wheel packages), it will try
 # to find the version according to the git tree, and so try to connect to upstream remote.
