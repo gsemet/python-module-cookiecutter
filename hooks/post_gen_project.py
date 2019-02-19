@@ -19,10 +19,10 @@ if __name__ == '__main__':
     if '{{ cookiecutter.add_git_remote_after_scapfolding }}' == 'y':
         subprocess.check_call(["git", "remote", "add", "origin",
             "https://github.com/"
-            "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+            "{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}"
         ])
         print("Please ensure the creation of the following project in githab: "
-            "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}")
+            "{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository_name }}")
 
     subprocess.check_call(["git", "add", ".*", "*"])
     subprocess.check_call(["git", "commit", "-m", 'Initial cookiecutter commit', "--all"])
