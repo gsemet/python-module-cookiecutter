@@ -178,13 +178,18 @@ sct: style check test
 # ==================================================================================================
 
 test:  ## Execute unit tests
-	$(PIPENV) run pytest $(MODULES)
+	$(PIPENV) run pytest --junitxml=report-unit-tests.xml $(MODULES)
 
-test-v:
+test-v:  ## Execute verbose unit tests
 	$(PIPENV) run pytest -vv $(MODULES)
 
 test-coverage:
-	$(PIPENV) run py.test -v --cov $(PACKAGE_NAME) --cov-report html:coverage_html --cov-report term $(MODULES)
+	$(PIPENV) run py.test -v \
+	                      --cov $(PACKAGE_NAME) \
+	                      --cov-report html:coverage_html \
+	                      --cov-report term \
+	                      --junitxml=report-unit-tests.xml \
+	                      $(MODULES)
 
 
 # ==================================================================================================
