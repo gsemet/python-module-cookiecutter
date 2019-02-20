@@ -27,6 +27,8 @@ mypy = "*"
 pytest-cov = "*"
 pydocstyle = "*"
 bandit = "*"
+pytest-watch = "*"
+pytest-html = "*"
 
 [packages]
 pbr = ">=4"

@@ -178,18 +178,40 @@ sct: style check test
 # ==================================================================================================
 
 test:  ## Execute unit tests
-	$(PIPENV) run pytest --junitxml=report-unit-tests.xml $(MODULES)
+	$(PIPENV) run pytest \
+	                     -m "not integration_tests" \
+	                     --html=report-unit-tests.html --self-contained-html \
+	                     --junitxml=report-unit-tests.xml -o junit_suite_name=unit_tests \
+	                     $(MODULES)
 
 test-v:  ## Execute verbose unit tests
-	$(PIPENV) run pytest -vv $(MODULES)
+	$(PIPENV) run pytest -vv \
+	                     -m "not integration_tests" \
+	                     --html=report-unit-tests.html --self-contained-html \
+	                     --junitxml=report-unit-tests.xml -o junit_suite_name=unit_tests \
+	                     $(MODULES)
 
 test-coverage:
 	$(PIPENV) run py.test -v \
+	                      -m "not integration_tests" \
 	                      --cov $(PACKAGE_NAME) \
 	                      --cov-report html:coverage_html \
 	                      --cov-report term \
-	                      --junitxml=report-unit-tests.xml \
+	                      --junitxml=report-unit-tests.xml -o junit_suite_name=unit_tests \
 	                      $(MODULES)
+
+test-integration:
+	$(PIPENV) run py.test -v \
+	                      -m "integration_tests" \
+	                      --junitxml=report-integration-tests.xml -o junit_suite_name=integration_tests \
+	                      $(MODULES)
+
+watch-unittests:  ## Watch unit test (restrict with: make watch-unittests TEST=myunittesttoway)
+	pipenv run ptw $(TEST) \
+	    --onfail "notify-send -t 1000 -i face-angry \"Unit tests failed!\"" \
+	    --onpass "notify-send -t 1000 -i face-wink \"Unit tests succeed!\"" \
+	    -- -vv -m "not integration_tests"
+
 
 
 # ==================================================================================================

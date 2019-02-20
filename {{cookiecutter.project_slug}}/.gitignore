@@ -27,6 +27,8 @@ coverage_html/
 !.coveragerc
 .tox
 nosetests.xml
+report-*.xml
+report-*.html
 .testrepository
 .venv
 venv
