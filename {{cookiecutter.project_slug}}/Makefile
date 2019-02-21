@@ -17,6 +17,7 @@ PIPENV_LOCK_ARGS:= --deploy --ignore-pipfile
 PIPENV_VERSION=2018.11.26
 PIP_VERSION=19.0.2
 
+MIN_COVERAGE_PERCENT:=50
 # ==================================================================================================
 # General Functions
 # ==================================================================================================
@@ -83,7 +84,6 @@ pipenv-install-dev:
 		$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON) ; \
 	fi
 	pipenv run pip install -e .
-
 
 mk-venv: clean-venv
 	mkdir -p .venv
@@ -197,6 +197,7 @@ test-coverage:
 	                      --cov $(PACKAGE_NAME) \
 	                      --cov-report html:coverage_html \
 	                      --cov-report term \
+	                      --cov-fail-under=$(MIN_COVERAGE_PERCENT) \
 	                      --junitxml=report-unit-tests.xml -o junit_suite_name=unit_tests \
 	                      $(MODULES)
 
