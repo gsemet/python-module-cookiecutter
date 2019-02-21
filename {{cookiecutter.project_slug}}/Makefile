@@ -72,10 +72,10 @@ ensure-pipenv:
 	fi
 
 pipenv-install-dev:
-	@$(pipenv --venv)
 	# Do not use destructive "--python" or "--three" option if the venv already exists
 	# See https://github.com/pypa/pipenv/issues/349
-	@if [ $$? -eq 0 ]; then \
+	@$(pipenv --venv) \
+	if [ $$? -eq 0 ]; then \
 		echo "$(PIPENV) install --dev $(PIPENV_LOCK_ARGS)" ; \
 		$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) ; \
 	else \
