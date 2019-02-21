@@ -30,6 +30,7 @@ bandit = "*"
 pytest-watch = "*"
 pytest-html = "*"
 pathlib2 = "*"
+typed-ast = "*"
 
 [packages]
 pbr = ">=4"
