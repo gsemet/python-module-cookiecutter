@@ -38,3 +38,4 @@ boltons = "*"
 scandir = {markers="python_version < '3.5'"}
 path-py = "*"
 attrs = "*"
+importlib-resources = "*"
