@@ -29,6 +29,7 @@ pydocstyle = "*"
 bandit = "*"
 pytest-watch = "*"
 pytest-html = "*"
+pathlib2 = "*"
 
 [packages]
 pbr = ">=4"
