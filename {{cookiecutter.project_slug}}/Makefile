@@ -86,7 +86,7 @@ pipenv-install-dev:
 		echo "$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON)" ; \
 		$(PIPENV) install --dev $(PIPENV_LOCK_ARGS) --python $(PYTHON) ; \
 	fi
-	pipenv run pip install -e .
+	$(PIPENV) run pip install -e .
 
 mk-venv: clean-venv
 	mkdir -p .venv
@@ -108,15 +108,15 @@ install-local-only-curpackage:
 
 pipenv-install-anyway:
 	if [ -f Pipfile.lock ]; then \
-		pipenv install --dev --ignore-pipfile; \
+		$(PIPENV) install --dev --ignore-pipfile; \
 	else \
-		pipenv install --dev --skip-lock; \
+		$(PIPENV) install --dev --skip-lock; \
 	fi;
-	pipenv run pip install -e .
+	$(PIPENV) run pip install -e .
 
 pipenv-install-inspect:
-	pipenv install --skip-lock --dev
-	pipenv graph
+	$(PIPENV) install --skip-lock --dev
+	$(PIPENV) graph
 
 
 # ==================================================================================================
@@ -150,7 +150,7 @@ isort-check:
 	$(PIPENV) run isort -c -rc $(MODULES)
 
 yapf-check:
-	pipenv run yapf --style .yapf --recursive --diff $(MODULES)
+	$(PIPENV) run yapf --style .yapf --recursive --diff $(MODULES)
 
 flake8:
 	$(PIPENV) run python setup.py flake8
@@ -163,10 +163,10 @@ mypy:
 	$(PIPENV) run mypy --config-file .mypy.ini $(MODULES)
 
 bandit:
-	pipenv run bandit -c .bandit.yml -r $(MODULES)
+	$(PIPENV) run bandit -c .bandit.yml -r $(MODULES)
 
 pydocstyle:
-	pipenv run pydocstyle $(MODULES)
+	$(PIPENV) run pydocstyle $(MODULES)
 
 clean-mypy:
 	rm -rf .mypy_cache || true
@@ -211,7 +211,7 @@ test-integration:
 	                      $(MODULES)
 
 watch-unittests:  ## Watch unit test (restrict with: make watch-unittests TEST=myunittesttoway)
-	pipenv run ptw $(TEST) \
+	$(PIPENV) run ptw $(TEST) \
 	    --onfail "notify-send -t 1000 -i face-angry \"Unit tests failed!\"" \
 	    --onpass "notify-send -t 1000 -i face-wink \"Unit tests succeed!\"" \
 	    -- -vv -m "not integration_tests"
@@ -335,7 +335,7 @@ DOCS_EXCLUSION=$(foreach m, $(MODULES), $m/tests)
 docs: clean-docs sdist docs-generate-apidoc docs-run-sphinx  ## Build online documentation
 
 docs-generate-apidoc:
-	pipenv run sphinx-apidoc \
+	$(PIPENV) run sphinx-apidoc \
 		--force \
 		--separate \
 		--module-first \
@@ -345,7 +345,7 @@ docs-generate-apidoc:
 			$(DOCS_EXCLUSION)
 
 docs-run-sphinx:
-	pipenv run make -C docs/ html
+	$(PIPENV) run make -C docs/ html
 
 clean-docs:
 	rm -rf docs/_build docs/source/reference/*.rst
