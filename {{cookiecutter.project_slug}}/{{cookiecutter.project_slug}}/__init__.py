@@ -6,7 +6,7 @@ from {{ cookiecutter.project_slug }}._{{ cookiecutter.project_slug }} import MyP
 
 
 def version():
-    return pbr.version.VersionInfo('{{ cookiecutter.project_slug }}').release_string()
+    return pbr.version.VersionInfo('{{ cookiecutter.project_name.replace(" ", "_") }}').release_string()
 
 ## Uncomment the following line to declare a __version__ in your root module. Beware the evaluation
 ## of the version may impact the load time of your module
